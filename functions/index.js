@@ -28,7 +28,7 @@ app.post('/loginold', function(req, res, nest){
    app.use(bodyParser.urlencoded({extended: true}));
    res.render('board', {title: 'ID:' + req.body.id});
 })
-app.post('/login', function(req, res, nest){
+app.post('/confirm', function(req, res, nest){
    var bodyParser = require('body-parser');
    app.use(bodyParser());
    app.use(bodyParser.urlencoded({extended: true}));
