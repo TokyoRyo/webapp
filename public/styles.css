@@ -1,0 +1,21 @@
+.maincontent{
+   max-width: 1300px;
+   margin: 0 auto;
+   padding: 1em;
+}
+.loadingicon{
+   background-color: blueviolet;
+   width: 20px;
+   height: 20px;
+}
+.loading{
+   width: 200px;
+   margin: 0 auto;
+   padding-top: 200px;
+}
+.loadingtext{
+   text-align: center;
+}
+.hide{
+   display: none;
+}
