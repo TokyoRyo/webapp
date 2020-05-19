@@ -14,10 +14,10 @@ app.set('view engine', 'pug');
 // Expressルーティングルールの設定
 // サイトルートへのリクエスト時にはindex.pugをレンダリングするように指定
 app.get('/', function(req, res, next) {
-   res.render('index', { title: 'Express' });
+   res.render('index', { title: '東京寮ウェブアプリ' });
 });
 app.get('/login', function(req, res, next) {
-   res.render('login', { title: '実験' });
+   res.render('login', { title: 'ログイン' });
 });
 app.get('/board/:idname', function(req, res, next) {
    res.render('board', { title: 'パラメータ：' + req.params['idname'] });
@@ -32,10 +32,17 @@ app.post('/confirm', function(req, res, nest){
    var bodyParser = require('body-parser');
    app.use(bodyParser());
    app.use(bodyParser.urlencoded({extended: true}));
-   var auth = require('./auth/auth');
-   var data = new auth(req, res);
-   res.render('board', {title: 'ID:' + data.login()})
+   var confirm = require('./imports/confirm');
+   if(confirm.confirm(req.body.password)){
+      res.render('createaccount', {title: 'ID:認証できました'})
+   }
+   else{
+      res.render('login', { title: '実験' });
+   }
 })
+app.get('/editprofile', function(req, res, next) {
+   res.render('editprofile', { title: '実験' });
+});
 
 
 // CloudFunctionへのリクエストをExpressに引き継ぐためのコード

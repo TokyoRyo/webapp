@@ -71,4 +71,11 @@ $(function(){
       $('.loading').addClass('hide');
       $('.loaded').removeClass('hide');
    }
+   $('.editprofile').submit(function(){
+      var name = $('.editprofile [name=name]').val();
+      firebase.database().ref('usersinfo/' + uid).set({
+         name: name
+      });
+      return false;
+   });
 })

@@ -64,3 +64,4 @@ node_modules/
 # dotenv environment variables file
 .env
 functions/firebase-adminsdk-secretkey.json
+functions/confirmpassword.json
