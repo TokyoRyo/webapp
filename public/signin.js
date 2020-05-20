@@ -16,8 +16,25 @@ $(function(){
       if (user) {
          window.location.href = "./"
       } else {
-         //
+         //aaaaa
       }
+   });
+   $('.createaccount').submit(function(){
+      console.log('アカウント作成')
+      var email = $('.createaccount [name=email]').val();
+      var password = $('.createaccount [name=password]').val();
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(function(){
+         window.location.href = "./"
+      })
+      .catch(function(error) {
+         // Handle Errors here.
+         var errorCode = error.code;
+         var errorMessage = error.message;
+         alert('エラー' + errorMessage)
+         // ...
+      });
+      return false;
    });
    $('.lemono-auth-signin').submit(function(){
       var email = $('.lemono-auth-signin [name=email]').val();
@@ -38,7 +55,7 @@ $(function(){
    $('.lemono-auth-signout').click(function(){
       firebase.auth().signOut()
       .then(function(){
-         window.location.href = "/"
+         window.location.href = "./"
       })
    });
    $('.getname').click(function(){

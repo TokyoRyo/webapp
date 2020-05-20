@@ -15,19 +15,27 @@ html(lang="ja")
       script(src="/signin.js")
       block header
    body
-      header.lemono-standard-header
-         div.lemono-header-content
-            | ヘッダー
+      header.symple-header
+         div.header-content
+            | 東京寮ウェブアプリ
       main
          div.maincontent
-            h2 東京寮寮生専用サイト
-            span
-               | サインインして寮生専用ページにアクセスしましょう。
-            form.lemono-auth-signin(name="sign-in")
-               div
-                  | メールアドレス
-                  input(type="text" name="email")
-               div
-                  |パスワード
-                  input(type="password" name="password")
-               button ログイン
+            div.box
+               h2 ログイン
+               span
+                  | アカウントを作成済みの寮生はここからログインしてください。
+               form.lemono-auth-signin(name="sign-in")
+                  span.fortextbox メールアドレス
+                  input.normaltextbox(type="text" name="email")
+                  span.fortextbox パスワード
+                  input.normaltextbox(type="password" name="password")
+                  button.submitbutton ログイン
+            div.box
+               h2 アカウントを作成
+               | アカウントをまだ作成していない寮生はここから作成してください。<br>
+               | 寮生共通パスワードとは、旧タイプの寮生専用サイトと同じものです。<br>
+               | 分からない場合はネットワーク委員にきいて下さい。
+               form.auth-confirm(name="confirm", action="./confirm", method="post")
+                  span.fortextbox 寮生共通パスワード
+                  input.normaltextbox(type="password" name="password")
+                  button.submitbutton アカウントを作成
