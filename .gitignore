@@ -65,3 +65,4 @@ node_modules/
 .env
 functions/firebase-adminsdk-secretkey.json
 functions/confirmpassword.json
+functions/secretKey.json

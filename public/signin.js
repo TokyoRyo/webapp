@@ -1,4 +1,5 @@
 $(function(){
+   lemonoStyle.loading(1)
    var uid = "";
    var firebaseConfig = {
       apiKey: "AIzaSyAFwYCHTlYgN_feZFKsFnR5U6hWCnfbvaY",
@@ -16,7 +17,7 @@ $(function(){
       if (user) {
          window.location.href = "./"
       } else {
-         //aaaaa
+         lemonoStyle.loaded()
       }
    });
    $('.createaccount').submit(function(){

@@ -1,17 +1,5 @@
 $(function(){
-   console.log('loading')
-   var loading = anime({
-      targets: '#loadinganime',
-      translateX: [
-         {value: 180, duration: 400},
-         {value: 0, duration: 400}
-      ],
-      borderRadius:[
-         {value: '0%', duration: 400},
-         {value: '100%', duration: 400}
-      ],
-      loop: true
-   });
+   lemonoStyle.loading(1)
    var uid = "";
    var firebaseConfig = {
       apiKey: "AIzaSyAFwYCHTlYgN_feZFKsFnR5U6hWCnfbvaY",
@@ -27,10 +15,22 @@ $(function(){
    var database = firebase.database();
    firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-         console.log('signined')
-         $('.lemono-auth-message').html('ようこそ' + user.email + 'さん')
          uid = firebase.auth().currentUser.uid;
-         loaded();
+         var myInfo = database.ref('usersinfo/');
+         var thisUrl = location.href;
+         if(thisUrl.slice(-11) != 'editprofile'){
+            myInfo.on('value', function(snapshot){
+               var datalist = snapshot.val();
+               if(datalist[uid] == null){
+                  window.location.href = "./editprofile"
+               }
+               else lemonoStyle.loaded()
+            });
+         }
+         else{
+            lemonoStyle.loaded();
+         }
+         
       } else {
          window.location.href = "./login"
       }
@@ -51,7 +51,7 @@ $(function(){
       });
       return false;
    });
-   $('.lemono-auth-signout').click(function(){
+   $('.auth-signout').click(function(){
       firebase.auth().signOut()
       .then(function(){
          window.location.href = "/"
@@ -73,9 +73,30 @@ $(function(){
    }
    $('.editprofile').submit(function(){
       var name = $('.editprofile [name=name]').val();
+      var grade = $('.editprofile [name=grade]').val();
+      var job = $('.editprofile [name=job]').val();
+      var floor = $('.editprofile [name=floor]').val();
+      var linename = $('.editprofile [name=linename]').val();
       firebase.database().ref('usersinfo/' + uid).set({
-         name: name
+         name: name,
+         grade: grade,
+         job: job,
+         floor: floor,
+         linename: linename
       });
       return false;
    });
+   console.log('uid' + uid)
+   var members = firebase.database().ref('usersinfo');
+   members.on('value', function(snapshot){
+      var userslist = snapshot.val();
+      var uidlidt = Object.keys(snapshot.val())
+      var i = 0;
+      var code = ''
+      for(i = 0; i < uidlidt.length; i++){
+         code = `${code}<div class="card mdl-cell mdl-cell--4-col"><div class="card__title">${userslist[uidlidt[i]]['name']}</div><div class="card__content">${userslist[uidlidt[i]]['grade']}<br>${userslist[uidlidt[i]]['job']}<br>${userslist[uidlidt[i]]['floor']}<br>LINEのプロフィール名：${userslist[uidlidt[i]]['linename']}</div></div>`
+      }
+      console.log(uidlidt)
+      $('.memberslist').html(code)
+   })
 })

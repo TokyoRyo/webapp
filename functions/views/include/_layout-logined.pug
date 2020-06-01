@@ -1,0 +1,22 @@
+doctype html
+html(lang="ja")
+   head
+      include _header.pug
+      block header
+   body
+      .lemono-mainlayout
+         header.lemono-mainlayout__header
+            span.lemono-drawer__button.lemono-only-small-screen.material-icons menu
+            span.lemono-mainlayout__header-logo 東京寮WebApp
+         aside.lemono-mainlayout__aside
+            nav.lemono-navlist
+               a.lemono-nav.lemono-title-nav(href="./") ホーム
+         .lemono-mainlayout__content(role="main")
+            .lemono-layer__wide
+               block contents
+         .lemono-loading
+            .lemono-loading__content
+               img.lemono-loading__logo(src="/logo.svg")
+               h4 東京寮WebApp
+               | 読み込み中...
+               .lemono-loading__animation
