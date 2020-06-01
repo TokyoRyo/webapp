@@ -1,0 +1,815 @@
+/*////////////////////////////////////////////////
+lemono design CSS
+http://github.com/DaskaWork/lemono-design
+
+MIT License
+
+Copyright (c) 2020 Daisuke Akazawa
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+////////////////////////////////////////////////*/
+/*////////////////////////////////////////////////
+         カスタムプロパティ
+////////////////////////////////////////////////*/
+:root{
+   --backgroundcolor: white;
+   --textcolor: rgb(38, 38, 38);
+   --accent: rgb(0, 45, 87);
+   --accent-pale: rgba(0, 45, 87, 0.15);
+   --accent-opposite: rgb(255, 255, 255);
+   --hover-background: rgba(0,0,0,0.05);
+   --gray: rgb(175, 175, 175);
+   --dark: rgb(50,50,50);
+   --red: #ff4b00;
+   --red-pale: #ffcabf;
+   --green: #03af7a;
+   --green-pale: #77d9a8;
+   --blue: #4dc4ff;
+   --blue-pale: #bfe4ff;
+   --purple: #960099;
+   --purple-pale: #c9ace6;
+   --yellow: #fff100;
+   --yellow-pale: #ffff80;
+   --important: #ff4b00;
+   --note: #286898;
+}
+
+/*////////////////////////////////////////////////
+         Main Layout
+////////////////////////////////////////////////*/
+html,body{
+   margin: 0;
+   padding: 0;
+   height: 100%;
+   font-family: 'Lato', 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+   line-height: 1.7em;
+}
+.material-icons{
+   font-size: 1lh;
+}
+.lemono-mainlayout__onelayer{
+   position: relative;
+}
+@media (min-width: 1024px){
+   .lemono-mainlayout{
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: grid;
+      display: -ms-grid;
+      grid-template-columns: 200px 1fr;
+      -ms-grid-columns: 200px 1fr;
+      grid-template-rows: 4rem 1fr;
+      -ms-grid-rows: 4em 1fr;
+      position: relative;
+   }
+   .lemono-mainlayout__header{
+      grid-column: 1/-1;
+      grid-row: 1;
+      -ms-grid-column: 1;
+      -ms-grid-row: 1;
+      -ms-grid-column-span: 2;
+   }
+   .lemono-mainlayout__aside{
+      grid-row: 2;
+      grid-column: 1;
+      -ms-grid-row: 2;
+      -ms-grid-column: 1;
+      overflow: auto;
+   }
+   .lemono-mainlayout__content{
+      grid-row: 2;
+      grid-column: 2;
+      -ms-grid-row: 2;
+      -ms-grid-column: 2;
+      overflow: auto;
+   }
+   .lemono-only-small-screen{
+      display: none;
+   }
+}
+@media (max-width: 1023px){
+   .lemono-mainlayout{
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      display: grid;
+      display: -ms-grid;
+      grid-template-columns: 1fr;
+      -ms-grid-columns: 1fr;
+      grid-template-rows: 4rem 1fr;
+      -ms-grid-rows: 4em 1fr;
+      position: relative;
+   }
+   .lemono-mainlayout__header{
+      grid-column: 1;
+      grid-row: 1;
+      -ms-grid-column: 1;
+      -ms-grid-row: 1;
+   }
+   .lemono-mainlayout__aside{
+      z-index: 9998;
+      position: absolute;
+      top: 4em;
+      left: -200px;
+      width: 200px;
+      height: calc(100vh - 4em);
+      background-color: white;
+      transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+      overflow-y: hidden;
+   }
+   .lemono-mainlayout__aside.open{
+      left: 0;
+   }
+   .lemono-mainlayout__content{
+      grid-row: 2;
+      grid-column: 1;
+      -ms-grid-row: 2;
+      -ms-grid-column: 1;
+      overflow: auto;
+   }
+   .lemono-only-large-screen{
+      display: none;
+   }
+}
+/*////////////////////////////////////////////////
+         ヘッダー
+////////////////////////////////////////////////*/
+.lemono-mainlayout__header{
+   background-color: var(--backgroundcolor);
+   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+   margin: 0;
+   padding: 0.5em;
+}
+.lemono-mainlayout__header .lemono-drawer__button{
+   font-size: 3rem;
+   padding: 0;
+   cursor: pointer;
+}
+.lemono-mainlayout__header-logo{
+   display: inline-block;
+   font-size: 2rem;
+   padding: 0;
+   height: 3rem;
+   line-height: 3rem;
+   vertical-align: top;
+}
+/*////////////////////////////////////////////////
+         サイドバー
+////////////////////////////////////////////////*/
+.lemono-mainlayout__aside > .lemono-navlist{
+   padding: 0.25em;
+}
+.lemono-mainlayout__aside > .lemono-navlist > .lemono-nav{
+   display: block;
+   color: var(--textcolor);
+   text-decoration: none;
+   padding: 0.25em 1em;
+   border-radius: 3px;
+}
+.lemono-mainlayout__aside > .lemono-navlist > .lemono-nav:hover{
+   background-color: var(--hover-background);
+}
+.lemono-mainlayout__aside > .lemono-navlist > .lemono-nav.active{
+   background-color: var(--accent-pale);
+   color: var(--accent);
+   font-weight: 700;
+}
+/*////////////////////////////////////////////////
+         コンテンツレイヤー
+////////////////////////////////////////////////*/
+.lemono-layer__wide{
+   max-width: 1150px;
+   margin: 0 auto;
+   padding: 1em 1em 1em 2em;
+}
+.lemono-layer__middle{
+   max-width: 700px;
+   margin: 0 auto;
+   padding: 1em 1em 1em 2em;
+}
+/*////////////////////////////////////////////////
+         グリッド
+////////////////////////////////////////////////*/
+@media (min-width: 900px){
+   .lemono-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+   }
+   .lemono-grid__span1{
+      grid-column: span 1;
+   }
+   .lemono-grid__span2{
+      grid-column: span 2;
+   }
+   .lemono-grid__span4{
+      grid-column: span 4;
+   }
+   .lemono-grid__span8{
+      grid-column: span 8;
+   }
+}
+@media (min-width:700px) and (max-width:899px){
+   .lemono-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+   }
+   .lemono-grid__span1{
+      grid-column: span 1;
+   }
+   .lemono-grid__span2{
+      grid-column: span 2;
+   }
+   .lemono-grid__span4{
+      grid-column: span 4;
+   }
+   .lemono-grid__span8{
+      grid-column: span 4;
+   }
+}
+@media (max-width:699px){
+   .lemono-grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+   }
+   .lemono-grid__span1{
+      grid-column: span 1;
+   }
+   .lemono-grid__span2{
+      grid-column: span 2;
+   }
+   .lemono-grid__span4{
+      grid-column: span 2;
+   }
+   .lemono-grid__span8{
+      grid-column: span 2;
+   }
+}
+/*////////////////////////////////////////////////
+         フォントサイズ
+////////////////////////////////////////////////*/
+.lemono-title{
+   display: block;
+   margin-left: -1rem;
+   position: relative;
+   height: 7em;
+   border-bottom: solid 0 var(--accent);
+   box-sizing: border-box;
+}
+.lemono-title__content{
+   display: block;
+   color: var(--accent);
+   font-size: 1.5rem;
+   font-weight: 800;
+   position: absolute;
+   height: 1em;
+   margin: 0;
+   padding: 0;
+   bottom: 1rem;
+   white-space: nowrap;
+}
+h1{
+   font-size: 6rem;
+   font-weight: 200;
+   margin: 1rem 0 0.25rem 0;
+   line-height: 1.2em;
+}
+h2{
+   font-size: 4rem;
+   font-weight: 200;
+   margin: 1rem 0 0.25rem 0;
+   line-height: 1.2em;
+}
+h3{
+   font-size: 2.5rem;
+   font-weight: 200;
+   margin: 1rem 0 0.25rem 0;
+   line-height: 1.2em;
+}
+h4{
+   font-size: 2rem;
+   font-weight: 200;
+   margin: 1rem 0 0.25rem 0;
+   line-height: 1.2em;
+}
+h5{
+   font-size: 1.5em;
+   font-weight: 600;
+   margin: 1rem 0 0.25rem 0;
+   line-height: 1.2em;
+}
+h6{
+   font-size: 1.25rem;
+   font-weight: 500;
+   margin: 1rem 0 0.25rem 0;
+   line-height: 1.2em;
+}
+/*////////////////////////////////////////////////
+         マーキング
+////////////////////////////////////////////////*/
+.lemono-marking__important{
+   color: var(--important);
+   font-weight: 800;
+}
+.lemono-marking__note{
+   color: var(--note);
+   font-weight: 600;
+}
+.lemono-marking__red{
+   border: solid 2px var(--red);
+   background-color: var(--red-pale);
+}
+.lemono-marking__green{
+   border: solid 2px var(--green);
+   background-color: var(--green-pale);
+}
+.lemono-marking__blue{
+   border: solid 2px var(--blue);
+   background-color: var(--blue-pale);
+}
+.lemono-marking__purple{
+   border: solid 2px var(--purple);
+   background-color: var(--purple-pale);
+}
+.lemono-marking__yellow{
+   border: solid 2px var(--yellow);
+   background-color: var(--yellow-pale);
+}
+/*////////////////////////////////////////////////
+         カード
+////////////////////////////////////////////////*/
+.lemono-card{
+   margin: 0.5em;
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border-radius: 2px;
+   padding: 0.75em;
+   display: grid;
+   display: -ms-grid;
+   grid-template-columns: 1fr max-content;
+   -ms-grid-columns: 1fr max-content;
+   grid-template-rows: min-content 1fr min-content;
+   -ms-grid-rows: min-content 1fr min-content;
+}
+.lemono-card:hover{
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.lemono-card__index{
+   grid-column: 1;
+   grid-row: 1;
+   -ms-grid-column: 1;
+   -ms-grid-row: 1;
+   -ms-grid-column-span: 1;
+   display: block;
+   font-size: 1em;
+   font-weight: 700;
+   color: var(--accent);
+}
+.lemono-card__index-right{
+   grid-column: 2;
+   grid-row: 1;
+   -ms-grid-column: 2;
+   -ms-grid-row: 1;
+   -ms-grid-column-span: 1;
+   display: block;
+   font-size: 1em;
+   font-weight: 600;
+   color: var(--accent);
+   padding-left: 1em;
+}
+.lemono-card__index-right:before{
+   content: '● ';
+}
+.lemono-card__content{
+   grid-column: 1/-1;
+   grid-row: 2;
+   -ms-grid-column: 1;
+   -ms-grid-row: 2;
+   -ms-grid-column-span: 2;
+   display: block;
+   color: var(--textcolor);
+   margin: 0.3em 0 0.3em 0;
+}
+.lemono-card__actions{
+   grid-column: 1/-1;
+   grid-row: 3;
+   -ms-grid-column: 1;
+   -ms-grid-row: 3;
+   -ms-grid-column-span: 2;
+   display: block;
+   margin: 1em 0 0.1em 0;
+   border-top: solid 1px var(--gray);
+   padding: 0.5em 0 0 0;
+}
+.lemono-card.red{
+   border: solid 3px var(--red);
+}
+.lemono-card.red > .lemono-card__index-right{
+   color: var(--red);
+}
+.lemono-card.green{
+   border: solid 3px var(--green);
+}
+.lemono-card.green > .lemono-card__index-right{
+   color: var(--green);
+}
+.lemono-card.blue{
+   border: solid 3px var(--blue);
+}
+.lemono-card.blue > .lemono-card__index-right{
+   color: var(--blue);
+}
+.lemono-card.purple{
+   border: solid 3px var(--purple);
+}
+.lemono-card.purple > .lemono-card__index-right{
+   color: var(--purple);
+}
+.lemono-card.yellow{
+   border: solid 3px var(--yellow);
+}
+/*////////////////////////////////////////////////
+         Button
+////////////////////////////////////////////////*/
+button{
+   overflow: hidden;
+   outline: none;
+   position: relative;
+}
+.lemono-button__accent{
+   display: inline-block;
+   text-decoration: none;
+   letter-spacing: 0.05em;
+   font-size: 1em;
+   font-weight: 600;
+   white-space: nowrap;
+   background-color: var(--accent);
+   color: var(--accent-opposite);
+   min-width: 5em;
+   padding: 0.5em 1em;
+   margin: 0.15em;
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: none;
+   border-radius: 3px;
+   cursor: pointer;
+}
+.lemono-button__accent:hover{
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.lemono-button__white{
+   display: inline-block;
+   text-decoration: none;
+   letter-spacing: 0.05em;
+   font-size: 1em;
+   font-weight: 600;
+   white-space: nowrap;
+   background-color: white;
+   color: var(--accent);
+   min-width: 5em;
+   padding: 0.5em 1em;
+   margin: 0.15em;
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: none;
+   border-radius: 3px;
+   cursor: pointer;
+}
+.lemono-button__white:hover{
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.lemono-button__dark{
+   display: inline-block;
+   text-decoration: none;
+   letter-spacing: 0.05em;
+   font-size: 1em;
+   font-weight: 600;
+   white-space: nowrap;
+   background-color: var(--dark);
+   color: white;
+   min-width: 5em;
+   padding: 0.5em 1em;
+   margin: 0.15em;
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: none;
+   border-radius: 3px;
+   cursor: pointer;
+}
+.lemono-button__dark:hover{
+   box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+.lemono-button__flat{
+   display: inline-block;
+   text-decoration: none;
+   letter-spacing: 0.05em;
+   font-size: 1em;
+   font-weight: 600;
+   white-space: nowrap;
+   background-color: transparent;
+   color: var(--accent);
+   min-width: 5em;
+   padding: 0.5em 0.5em;
+   margin: 0.15em;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: none;
+   border-radius: 3px;
+   cursor: pointer;
+}
+.lemono-button__flat:hover{
+   background-color: var(--hover-background);
+}
+.lemono-button__border{
+   display: inline-block;
+   text-decoration: none;
+   letter-spacing: 0.05em;
+   font-size: 1em;
+   font-weight: 600;
+   white-space: nowrap;
+   background-color: transparent;
+   color: var(--accent);
+   min-width: 5em;
+   padding: 0.45em 1em;
+   margin: 0.2em;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 3px var(--accent);
+   border-radius: 3px;
+   cursor: pointer;
+}
+.lemono-button__border:hover{
+   background-color: var(--hover-background);
+}
+.lemono-button__proceeding{
+   cursor: not-allowed;
+}
+.lemono-button__proceeding-icon{
+   display: inline-block;
+   background-color: white;
+   width: 1em;
+   height: 1em;
+   margin-right: 0.5em;
+}
+/*////////////////////////////////////////////////
+         テキストボックス
+////////////////////////////////////////////////*/
+.lemono-textbox{
+   text-decoration: none;
+   white-space: nowrap;
+   background-color: transparent;
+   color: var(--textcolor);
+   min-width: 5em;
+   padding: 1em 0 0 0;
+   margin: 1em 0.5em;
+   position: relative;
+}
+.lemono-textbox > input{
+   white-space: nowrap;
+   min-width: 5em;
+   padding: 0.45em 0.3em;
+   margin: 0;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 2px;
+   width: 100%;
+   box-sizing: border-box;
+}
+.lemono-textbox > input:focus{
+   border: solid 2px var(--accent);
+   outline: none;
+}
+.lemono-textbox > .lemono-textbox__title{
+   color: var(--textcolor);
+   position: absolute;
+   font-size: 0.9em;
+   top: 0;
+   left: 0;
+   line-height: 0.9em;
+}
+.lemono-textbox.error > input{
+   border: solid 2px var(--red);
+}
+.lemono-textbox.error > input:focus{
+   border: solid 2px var(--red);
+}
+.lemono-textbox.error > .lemono-textbox__title{
+   color: var(--red);
+}
+.lemono-textbox.error > .lemono-textbox__title:after{
+   content: '(入力してください)';
+}
+.lemono-textbox > textarea{
+   white-space: nowrap;
+   min-width: 5em;
+   height: 15em;
+   padding: 0.45em 0.3em;
+   margin: 0;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 2px;
+   width: 100%;
+   box-sizing: border-box;
+}
+.lemono-textbox > textarea:focus{
+   border: solid 2px var(--accent);
+   outline: none;
+}
+/*////////////////////////////////////////////////
+         フォーム部品
+////////////////////////////////////////////////*/
+.lemono-select{
+   text-decoration: none;
+   white-space: nowrap;
+   background-color: transparent;
+   color: var(--textcolor);
+   min-width: 5em;
+   padding: 1em 0 0 0;
+   margin: 1em 0.5em;
+   position: relative;
+}
+.lemono-select > select{
+   background-color: white;
+   white-space: nowrap;
+   min-width: 5em;
+   padding: 0.45em 0.3em;
+   margin: 0;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 2px;
+   width: 100%;
+   box-sizing: border-box;
+}
+.lemono-select > select:focus{
+   border: solid 2px var(--accent);
+   outline: none;
+}
+.lemono-select > .lemono-select__title{
+   color: var(--textcolor);
+   position: absolute;
+   font-size: 0.9em;
+   top: 0;
+   left: 0;
+   line-height: 0.9em;
+}
+.lemono-select.error > select{
+   border: solid 2px var(--red);
+}
+.lemono-select.error > select:focus{
+   border: solid 2px var(--red);
+}
+.lemono-select.error > .lemono-select__title{
+   color: var(--red);
+}
+.lemono-select.error > .lemono-select__title:after{
+   content: '(要選択)';
+}
+/*////////////////////////////////////////////////
+         テーブル
+////////////////////////////////////////////////*/
+.lemono-table{
+   overflow: auto;
+   padding: 0.5em;
+   max-height: 70vh;
+}
+.lemono-table > table{
+   margin: 0 auto;
+   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border-radius: 2px;
+   padding: 0.75em;
+   box-sizing: border-box;
+   border-collapse:collapse;
+}
+.lemono-table tr{
+   background-color: white;
+   border-bottom: solid 2px var(--gray);
+}
+.lemono-table tr:hover{
+   background-color: var(--hover-background);
+}
+.lemono-table th{
+   color: var(--text);
+   font-weight: 700;
+   padding: 0.5em 1em;
+   white-space: nowrap;
+}
+.lemono-table td{
+   color: var(--text);
+   padding: 0.5em 1em;
+   white-space: nowrap;
+}
+/*////////////////////////////////////////////////
+         Tab
+////////////////////////////////////////////////*/
+.lemono-tab{
+   display: none;
+}
+.lemono-tab.active{
+   display: block;
+}
+/*////////////////////////////////////////////////
+         ポップアップウィンドウ
+////////////////////////////////////////////////*/
+.lemono-popup{
+   display: none;
+}
+.lemono-popup.active{
+   width: 100vw;
+   height: 100vh;
+   position: absolute;
+   background-color: rgba(0, 0, 0, 0.16);
+   display: grid;
+   display: -ms-grid;
+   grid-template-columns: 1fr max-content 1fr;
+   -ms-grid-columns: 1fr max-content 1fr;
+   grid-template-rows: 1fr max-content 1fr;
+   -ms-grid-rows: 1fr max-content 1fr;
+   z-index: 9999;
+}
+.lemono-popup__content{
+   display: none;
+}
+.lemono-popup__content.active{
+   display: block;
+   width: 800px;
+   max-width: calc(100vw - 1em);
+   max-height: calc(100vh - 5em);
+   grid-column: 2;
+   grid-row: 2;
+   -ms-grid-column: 2;
+   -ms-grid-row: 2;
+   -ms-grid-column-span: 1;
+   background-color: white;
+   padding: 1em;
+   box-sizing: border-box;
+   overflow: auto;
+}
+/*////////////////////////////////////////////////
+         ローディング画面
+////////////////////////////////////////////////*/
+.lemono-loading{
+   width: 100vw;
+   height: 100vh;
+   position: absolute;
+   top: 0;
+   left: 0;
+   background-color: white;
+   display: grid;
+   display: -ms-grid;
+   grid-template-columns: 1fr max-content 1fr;
+   -ms-grid-columns: 1fr max-content 1fr;
+   grid-template-rows: 0.7fr max-content 1fr;
+   -ms-grid-rows: 0.7fr max-content 1fr;
+   z-index: 9999;
+}
+.lemono-loading.loaded{
+   display: none;
+}
+.lemono-loading__content{
+   text-align: center;
+   display: block;
+   width: 350px;
+   max-width: calc(100vw - 1em);
+   max-height: calc(100vh - 5em);
+   grid-column: 2;
+   grid-row: 2;
+   -ms-grid-column: 2;
+   -ms-grid-row: 2;
+   -ms-grid-column-span: 1;
+   padding: 1em;
+   box-sizing: border-box;
+   overflow: hidden;
+}
+.lemono-loading__logo{
+   width: 200px;
+   height: 200px;
+   display: block;
+   margin: 0 auto;
+}
+.lemono-loading__animation{
+   width: 1.5rem;
+   height: 1.5rem;
+   background-color: var(--accent);
+}
+/*////////////////////////////////////////////////
+         Katex
+////////////////////////////////////////////////*/
+.katex{
+   display: inline-block;
+   white-space: nowrap;
+}
