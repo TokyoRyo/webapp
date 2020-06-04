@@ -1,0 +1,44 @@
+extends ./include/_layout-logined.pug
+
+block header
+   title= ホーム-東京寮WebApp
+   script(src="/auth.js")
+
+block contents
+   h3 オンライン会議
+   h5 会議をオンラインで行うのかどうかは、このアプリの予定のページでよく確認してください。
+   .lemono-grid
+      .lemono-card.lemono-grid__span4.blue
+         .lemono-card__index 全員対象
+         .lemono-card__content
+            h4 寮生総会
+            | 3,8,9月を除く毎月第一水曜日の次の土曜日の20:00から(一部例外あり)
+         .lemono-card__actions
+            a(href="https://join.skype.com/V987CCZGYyPV", target="_blank")
+               button.lemono-button__accent Skypeを開く
+      .lemono-card.lemono-grid__span4.red
+         .lemono-card__index 自治会メンバーと希望者が対象
+         .lemono-card__content
+            h4 寮生委員会
+            | 3,8,9月を除く毎月第一水曜日の22:30から(一部例外あり)
+         .lemono-card__actions
+            a(href="https://join.skype.com/VLfcu1e0ZnAW", target="_blank")
+               button.lemono-button__accent Skypeを開く
+      .lemono-card.lemono-grid__span4
+         .lemono-card__index 寮生間で自由に利用可
+         .lemono-card__content
+            h4 会議室1
+            | 利用したい人は自由に使ってください。<br>
+            | ゲストとして参加するか、利用後に参加者リストを表示してグループから退室すれば通知は来なくなります。
+         .lemono-card__actions
+            a(href="https://join.skype.com/VkH1unJP1KtS", target="_blank")
+               button.lemono-button__accent Skypeを開く
+      .lemono-card.lemono-grid__span4
+         .lemono-card__index 寮生間で自由に利用可
+         .lemono-card__content
+            h4 会議室2
+            | 利用したい人は自由に使ってください。<br>
+            | ゲストとして参加するか、利用後に参加者リストを表示してグループから退室すれば通知は来なくなります。
+         .lemono-card__actions
+            a(href="https://join.skype.com/VvwzmJZLtpvw", target="_blank")
+               button.lemono-button__accent Skypeを開く

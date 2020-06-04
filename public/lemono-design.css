@@ -678,6 +678,108 @@ button{
 .lemono-select.error > .lemono-select__title:after{
    content: '(要選択)';
 }
+.lemono-checkbox{
+   text-decoration: none;
+   background-color: transparent;
+   color: var(--textcolor);
+   min-width: 5em;
+   padding: 1em 0 0 0;
+   margin: 1em 0.5em;
+   position: relative;
+}
+.lemono-checkbox > label{
+   display:inline-block;
+   margin: 0.2em 0.5em;
+   cursor: pointer;
+}
+.lemono-checkbox input{
+   display: none;
+}
+.lemono-checkbox input+span{
+   display: inline-block;
+   vertical-align: top;
+   line-height: 1em;
+}
+.lemono-checkbox input+span:before{
+   display: inline-block;
+   vertical-align: top;
+   content: '';
+   width: 1em;
+   height: 1em;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 2px;
+   margin: 0 0.2em 0 0;
+   box-sizing: border-box;
+}
+.lemono-checkbox input:checked+span{
+   color: var(--accent);
+   font-weight: 600;
+   text-decoration: underline var(--accent);
+}
+.lemono-checkbox input:checked+span:before{
+   background-color: var(--accent);
+   border: solid 3px var(--gray);
+}
+.lemono-checkbox > .lemono-select__title{
+   color: var(--textcolor);
+   position: absolute;
+   font-size: 0.9em;
+   top: 0;
+   left: 0;
+   line-height: 0.9em;
+}
+.lemono-radio{
+   text-decoration: none;
+   background-color: transparent;
+   color: var(--textcolor);
+   min-width: 5em;
+   padding: 1em 0 0 0;
+   margin: 1em 0.5em;
+   position: relative;
+}
+.lemono-radio > label{
+   display:inline-block;
+   margin: 0.2em 0.5em;
+   cursor: pointer;
+}
+.lemono-radio input{
+   display: none;
+}
+.lemono-radio input+span{
+   display: inline-block;
+   vertical-align: top;
+   line-height: 1em;
+}
+.lemono-radio input+span:before{
+   display: inline-block;
+   vertical-align: top;
+   content: '';
+   width: 1em;
+   height: 1em;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 50%;
+   margin: 0 0.2em 0 0;
+   box-sizing: border-box;
+}
+.lemono-radio input:checked+span{
+   color: var(--accent);
+   font-weight: 600;
+   text-decoration: underline var(--accent);
+}
+.lemono-radio input:checked+span:before{
+   background-color: var(--accent);
+   border: solid 3px var(--gray);
+}
+.lemono-radio > .lemono-select__title{
+   color: var(--textcolor);
+   position: absolute;
+   font-size: 0.9em;
+   top: 0;
+   left: 0;
+   line-height: 0.9em;
+}
 /*////////////////////////////////////////////////
          テーブル
 ////////////////////////////////////////////////*/

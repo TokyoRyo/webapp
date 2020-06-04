@@ -1,0 +1,33 @@
+extends ./include/_layout-login.pug
+
+block header
+   title= 通知の設定-東京寮WebApp
+   script(src="/auth.js")
+   link(rel="manifest", href="/manifest.json")
+   script(src="/webpush.js")
+
+block contents
+   h3 通知の設定
+   h5 新しい掲示や緊急の通知があった場合にすぐに気づくことができるように通知を設定してください。
+   .lemono-grid
+      .lemono-card.lemono-grid__span4
+         .lemono-card__index このディバイスでは利用できません。
+         .lemono-card__content
+            h4 Webプッシュ通知
+            | WindowsのChrome,Edge,FirefoxとAndroidのChrome,FireFoxとChromebookでは下のボタンをクリックすることで通知を受け取れるようになります。<br>
+            | Mac,iOSには対応していません。
+      .lemono-card.lemono-grid__span4
+         .lemono-card__index おすすめ
+         .lemono-card__content
+            h4 LINEで受け取る
+            | LINEで通知を受け取ることができます。<br>
+            | 無料で送ることができるメッセージ数(人数)に制限があるので、Webプッシュ通知が利用できる人はそちらを利用してください。
+            h4 東京寮の公式LINEを友達登録してください。
+            .lemono-grid
+               .lemono-grid__span4
+                  | 友だち登録QRコード↓<br>
+                  img(src="https://qr-official.line.me/sid/M/322raitr.png", width="100%")
+               .lemono-grid__span4
+                  | または下のボタンから登録<br>
+                  a(href="https://lin.ee/0BRHJFG")
+                     img(src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png", alt="友だち追加", height="36", border="0")

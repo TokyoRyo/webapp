@@ -21,7 +21,8 @@
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.6.1",
     "jade": "^1.11.0",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "sendmail": "^1.6.1"
   },
   "devDependencies": {
     "clean-css": "^4.2.3",
