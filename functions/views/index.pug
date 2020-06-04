@@ -1,12 +1,10 @@
 extends ./include/_layout-logined.pug
 
-block header
-   script(src="/signin.js")
-
 block contents
    h3 掲示
 
 block header
+   title= ホーム-東京寮WebApp
    script(src="/auth.js")
    meta(name="apple-mobile-web-app-capable", content="yes")
    meta(name="apple-mobile-web-app-status-bar-style", content="black")

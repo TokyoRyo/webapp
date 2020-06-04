@@ -1,6 +1,7 @@
-extends ./include/_layout-login.pug
+extends ./include/_layout-logined.pug
 
 block header
+   title= プロフィールの設定-東京寮WebApp
    script(src="/auth.js")
 
 block contents
@@ -12,7 +13,7 @@ block contents
          .lemono-textbox__title 名前(本名・スペースなしフルネーム)
       .lemono-select
          select.normalselect(name="grade")
-            option(value="学年：未指定/分からない") 未指定/分からない
+            option(value="未指定/分からない") 未指定/分からない
             option(value="1年生") 1年生
             option(value="2年生") 2年生
             option(value="3年生") 3年生
@@ -22,7 +23,7 @@ block contents
          .lemono-select__title 寮での学年(留年等は考慮しない)
       .lemono-select
          select.normalselect(name="job")
-            option(value="役職：未指定/分からない") 未指定/分からない
+            option(value="未指定/分からない") 未指定/分からない
             option(value="ネットワーク") ネットワーク委員
             option(value="ネットワーク(委員長)") ネットワーク委員(委員長)
             option(value="会計") 会計委員
