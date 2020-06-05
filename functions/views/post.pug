@@ -3,6 +3,7 @@ extends ./include/_layout-logined.pug
 block header
    title 掲示の投稿
    script(src="/auth.js")
+   script(src="/lemono-contenteditable.js")
 
 block contents
    h3 掲示の投稿
@@ -19,10 +20,31 @@ block contents
       .lemono-textbox
          input(type="text", name="title" required)
          .lemono-textbox__title 掲示のタイトル【必須】
-      .lemono-textbox
-         textarea(name="content")
-         .lemono-textbox__title 掲示の内容
-      .questions
+      .lemono-contenteditable
+         .lemono-contenteditable__title 掲示の内容
+         .lemono-contenteditable__editablearea
+            .lemono-contenteditable__header
+               .lemono-contenteditable__header__tools
+                  button.lemono-contenteditable__button-color(name="lemono-marking__normal", type="button")
+                     span.lemono-marking__normal 標準
+                  button.lemono-contenteditable__button-color(name="lemono-marking__large", type="button")
+                     span.lemono-marking__normal 大きく
+                  button.lemono-contenteditable__button-color(name="lemono-marking__important", type="button")
+                     span.lemono-marking__important 重要
+                  button.lemono-contenteditable__button-color(name="lemono-marking__note", type="button")
+                     span.lemono-marking__note 注意
+                  button.lemono-contenteditable__button-color(name="lemono-marking__red", type="button")
+                     span.lemono-marking__red 赤色
+                  button.lemono-contenteditable__button-color(name="lemono-marking__green", type="button")
+                     span.lemono-marking__green 緑色
+                  button.lemono-contenteditable__button-color(name="lemono-marking__blue", type="button")
+                     span.lemono-marking__blue 青色
+                  button.lemono-contenteditable__button-color(name="lemono-marking__purple", type="button")
+                     span.lemono-marking__purple 紫色
+                  button.lemono-contenteditable__button-color(name="lemono-marking__yellow", type="button")
+                     span.lemono-marking__yellow 黄色
+            .lemono-contenteditable__content.postcontent(contenteditable="true") 
+      .questions 現在アンケート(質問)は実装されていません。
       button.lemono-button__flat.addquestion(type="button") アンケート(質問)を追加する
       .lemono-select
          select.normalselect(name="indormitory")

@@ -1,0 +1,11 @@
+extends ./include/_layout-logined.pug
+
+block header
+   script(src="/auth.js")
+   script(src="/lemono-contenteditable.js")
+
+block contents
+   .showtopic(style="display:none") #{id}
+   h3.topictitle
+   .insertthistopic
+   .filelist

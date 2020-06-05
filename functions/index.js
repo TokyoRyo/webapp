@@ -37,6 +37,15 @@ app.get('/post', (req, res, next) => {
 app.get('/members', (req, res, next) => {
    res.render('members', { title: 'メンバー' });
 });
+app.get('/topic', (req, res, next) => {
+   res.render('topic', { title: 'トピック' });
+});
+app.get('/edit-:id', (req, res, next) => {
+   res.render('edittopic', { title: 'トピックの編集', id:req.params['id'] });
+});
+app.get('/show-:id', (req, res, next) => {
+   res.render('showtopic', { title: 'トピックを見る', id:req.params['id'] });
+});
 app.get('/onlinemeeting', (req, res, next) => {
    res.render('onlinemeeting', { title: 'オンライン会議' });
 });
@@ -45,6 +54,9 @@ app.get('/status', (req, res, next) => {
 });
 app.get('/login', (req, res, next) => {
    res.render('login', { title: 'ログイン' });
+});
+app.get('/contente', (req, res, next) => {
+   res.render('contente', { title: 'コンテンツエディタブル' });
 });
 app.post('/confirm', (req, res, next) => {
    var confirm = require('./imports/confirm');
