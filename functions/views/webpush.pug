@@ -1,27 +1,35 @@
-extends ./include/_layout-login.pug
+extends ./include/_layout-logined.pug
 
 block header
-   title= 通知の設定-東京寮WebApp
    script(src="/auth.js")
    link(rel="manifest", href="/manifest.json")
-   script(src="/webpush.js")
 
 block contents
    h3 通知の設定
    h5 新しい掲示や緊急の通知があった場合にすぐに気づくことができるように通知を設定してください。
    .lemono-grid
-      .lemono-card.lemono-grid__span4
-         .lemono-card__index このディバイスでは利用できません。
+      .lemono-card.lemono-grid__span4.chrome-notify
+         .lemono-card__index.chrome-notify__index 一部ディバイスで利用可
          .lemono-card__content
             h4 Webプッシュ通知
-            | WindowsのChrome,Edge,FirefoxとAndroidのChrome,FireFoxとChromebookでは下のボタンをクリックすることで通知を受け取れるようになります。<br>
-            | Mac,iOSには対応していません。
-      .lemono-card.lemono-grid__span4
-         .lemono-card__index おすすめ
+            span.lemono-marking__blue WindowsのChrome,Edge,Firefox
+            | と
+            span.lemono-marking__green AndroidのChrome,FireFox
+            | と
+            span.lemono-marking__yellow Chromebook
+            | では下のボタンをクリックすることで通知を受け取れるようになります。<br>
+            span.lemono-marking__important Apple製品(Mac,iOS)には対応していません。
+            h4 下のボタンを押した後、「通知を許可」してください。
+            button.lemono-button__accent.requestPermission 通知をONにする
+            | <br>うまくいかないときは下のLINEを利用してください。
+      .lemono-card.lemono-grid__span4.line-notify
+         .lemono-card__index.line-notify__index 全員利用可
          .lemono-card__content
             h4 LINEで受け取る
             | LINEで通知を受け取ることができます。<br>
-            | 無料で送ることができるメッセージ数(人数)に制限があるので、Webプッシュ通知が利用できる人はそちらを利用してください。
+            | 無料で送ることができるメッセージ数(人数)に制限があるので、
+            span.lemono-marking__purple Webプッシュ通知が利用できる人はそちらを利用
+            | してください。
             h4 東京寮の公式LINEを友達登録してください。
             .lemono-grid
                .lemono-grid__span4
@@ -31,3 +39,10 @@ block contents
                   | または下のボタンから登録<br>
                   a(href="https://lin.ee/0BRHJFG")
                      img(src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png", alt="友だち追加", height="36", border="0")
+            span.lemono-marking__important 友だち登録後、フルネームをメッセージして登録を完了させてください。
+      .lemono-card.lemono-grid__span4
+         .lemono-card__index 一部の人のみ
+         .lemono-card__content
+            h4 通知を受け取らない
+            | 通知を受け取らないかわりに、少なくとも一日複数回このアプリで掲示やお知らせをチェックする人は下のボタンを押してください。<br>
+            span.lemono-marking__red 極めて重要な掲示を見逃さない確信がない人は下のボタンを押さず、通知を設定してください。
