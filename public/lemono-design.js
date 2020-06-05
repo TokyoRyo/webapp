@@ -42,7 +42,7 @@ $(function(){
       };
       currentScrollPos = $('.lemono-mainlayout__content').scrollTop();
    });
-   $('.once').on('click', function(){
+   $(document).on('click', '.once', function(){
       $(this).html('<div class="lemono-button__proceeding-icon">a</div>処理中...');
       $(this).prop('disabled', true);
       $(this).addClass('lemono-button__proceeding');
@@ -72,10 +72,10 @@ $(function(){
          $(this).parent().removeClass('error');
       };
    });
-   $('.lemono-drawer__button').on('click', function(){
+   $(document).on('click', '.lemono-drawer__button', function(){
       $('.lemono-mainlayout__aside').toggleClass('open');
    });
-   $('.lemono-tab__button').on('click', function(){
+   $(document).on('click', '.lemono-tab__button', function(){
       var thisClasses = $(this).attr('class').split(' ');
       var i;
       for(i = 0; i < thisClasses.length; i++){
@@ -92,7 +92,7 @@ $(function(){
       $('.lemono-tab__group-' + tabGroup).removeClass('active');
       $('.lemono-tab__group-' + tabGroup + '.lemono-tab__name-' + tabName).addClass('active');
    });
-   $('.lemono-popup__open').on('click', function(){
+   $(document).on('click', '.lemono-popup__open', function(){
       $('.lemono-popup').addClass('active');
       var thisClasses = $(this).attr('class').split(' ');
       var i;
@@ -103,7 +103,7 @@ $(function(){
       };
       lemonoStyle.openPopUp(popupName);
    });
-   $('.lemono-popup__close').on('click', lemonoStyle.closePopUp);
+   $(document).on('click', '.lemono-popup__close', lemonoStyle.closePopUp);
 });
 var readyed = 0;
 var lemonoStyle = {
@@ -137,10 +137,10 @@ var lemonoStyle = {
    },
    createButton: function(Class, Id, Content){
       if(Class != ''){
-         Class = ` class=\\"${Class}\\"`
+         Class = ' class="' + Class + '"'
       }
       if(Id != ''){
-         Id = ` id=\\"${Id}\\"`
+         Id = ' id="' + Id + '"'
       }
       return `<button${Class}${Id}>${Content}</button>`
    },
@@ -158,18 +158,18 @@ var lemonoStyle = {
       if(Id != ''){
          Id = ' id="' + Id + '"';
       };
-      var code = `<div class=\\"${Class}"${Id}\\">`;
+      var code = '<div class="' + Class + '"' + Id + '">';
       if(index != ''){
          code = code + `<span class="lemono-card__index">${index}</span>`;
       };
       if(rightIndex != ''){
-         code = code + `<span class="lemono-card__index-right">${index}</span>`;
+         code = code + `<span class="lemono-card__index-right">${rightIndex}</span>`;
       };
       if(content != ''){
          code = code + `<span class="lemono-card__content">${content}</span>`;
       };
       if(actions != ''){
-         code = code + `<span class="lemono-card__actions">${content}</span>`;
+         code = code + `<span class="lemono-card__actions">${actions}</span>`;
       };
       code = code + '</div>'
       return code;

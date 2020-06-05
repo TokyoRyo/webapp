@@ -92,7 +92,7 @@ $(function(){
          floor: floor,
          linename: linename
       });
-      return false;
+      window.location.href = "./"
    });
    var members = firebase.database().ref('usersinfo');
    members.on('value', function(snapshot){
@@ -154,8 +154,7 @@ $(function(){
       $('.questions').append(code);
       question++;
    });
-   //$('.post').submit(function(){
-      $('.notsubmit').click(function(){
+   $('.post').submit(function(){
       var senduidlist = [];
       var gradelist = [];
       $('input:checkbox[name="postto"]:checked').each(function() {
@@ -192,7 +191,7 @@ $(function(){
             }
          }
          if(senduidlist.indexOf(uid) >= 0){
-            senduidlist.splice(senduidlist.indexOf(uid) >= 0, 1)
+            senduidlist.splice(senduidlist.indexOf(uid), 1)
          }
          var senduiddict = {};
          for(i = 0; i < senduidlist.length; i++){
@@ -218,7 +217,15 @@ $(function(){
             postContent['uidlist'] = senduiddict;
          }
          firebase.database().ref('post/' + postDate).set(postContent);
-         return false;
+         var senduidpostdata = ''
+         for(i = 0; i < senduidlist.length; i++){
+            senduidpostdata = senduidpostdata + senduidlist[i] + ',';
+         }
+         var xhr = new XMLHttpRequest();
+         xhr.open('POST', './sendnotify');
+         xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+         xhr.send( 'senduidpostdata=' + senduidpostdata + '&title=' + $('.post [name=title]').val() + '&content=' + $('.post [name=content]').val() );
+         window.location.href = "./"
       })
       return false;
    });
@@ -243,6 +250,230 @@ $(function(){
       firebase.database().ref('status/' + uid).set({
          status: status
       });
+      window.location.href = "./"
       return false;
+   })
+   var posts = firebase.database().ref('post');
+   posts.on('value', function(snapshot){
+      var postlist = snapshot.val();
+      if(snapshot.val() == null){
+         return false;
+      }
+      var postidlist = Object.keys(snapshot.val()).sort();
+      var i;
+      var toList = firebase.database().ref('/usersinfo')
+      toList.once('value').then(function(snapshot) {
+         var userinfolist = snapshot.val();
+         var code = '';
+         var popup = '';
+         for(i = postidlist.length - 1; i >= 0; i--){
+            var posteddate = postidlist[i].substring(0,4) + '年' + postidlist[i].substring(4,6) + '月' + postidlist[i].substring(6,8) + '日 ' + postidlist[i].substring(8,10) + ':' + postidlist[i].substring(10,12)
+            var readlist = postlist[postidlist[i]]['uidlist'];
+            if(readlist != null){
+               var readuidlist = Object.keys(readlist);
+               var j;
+               var read1 = '1年生：';
+               var read2 = '2年生：';
+               var read3 = '3年生：';
+               var read4 = '4年生：';
+               var read5 = '院生等';
+               var unread1 = '1年生：';
+               var unread2 = '2年生：';
+               var unread3 = '3年生：';
+               var unread4 = '4年生：';
+               var unread5 = '院生等';
+               var readn = 0;
+               var unreadn = 0
+               var popupButton = ''
+               for(j = 0; j < readuidlist.length; j++){
+                  if(readlist[readuidlist[j]] == 'unread'){
+                     unreadn++;
+                     if(userinfolist[readuidlist[j]]['grade'] == '1年生'){
+                        unread1 = unread1 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '2年生'){
+                        unread2 = unread2 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '3年生'){
+                        unread3 = unread3 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '4年生'){
+                        unread4 = unread4 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '院生等'){
+                        unread5 = unread5 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                  }
+                  else if(readlist[readuidlist[j]] == 'read'){
+                     readn++;
+                     if(userinfolist[readuidlist[j]]['grade'] == '1年生'){
+                        read1 = read1 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '2年生'){
+                        read2 = read2 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '3年生'){
+                        read3 = read3 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '4年生'){
+                        read4 = read4 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                     else if(userinfolist[readuidlist[j]]['grade'] == '院生等'){
+                        read5 = read5 + userinfolist[readuidlist[j]]['name'] + ' '
+                     }
+                  }
+               }
+               popupButton = lemonoStyle.createButton('lemono-button__flat lemono-popup__open lemono-popup__name-' + postidlist[i] , '', readn + '/' + Number(readn + unreadn) + 'が確認済み')
+               popup = popup + '<div class="lemono-popup__content lemono-popup__name-' + postidlist[i] + '"><h5>確認済み</h5>' + read1 + '<br>' + read2 + '<br>' + read3 + '<br>' + read4 + '<br>' + read5 + '<h5>未確認</h5>' + unread1 + '<br>' + unread2 + '<br>' + unread3 + '<br>' + unread4 + '<br>' + unread5 + '<br>' + lemonoStyle.createButton('lemono-button__accent lemono-popup__close' , '', '閉じる') + '</div>'
+            }
+            if(postlist[postidlist[i]]['postedBy'] == uid){
+               code = code + lemonoStyle.createCard({
+                  index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                  rightIndex : 'あなたが投稿',
+                  content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                  actions : lemonoStyle.createButton('lemono-button__dark delPost postid-' + postidlist[i], '', 'この掲示を削除する') + popupButton,
+                  Class : 'green'
+               });
+            }
+            else if(postlist[postidlist[i]]['uidlist'][uid] == 'unread'){
+               code = code + lemonoStyle.createCard({
+                  index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                  rightIndex : '要確認',
+                  content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                  actions : lemonoStyle.createButton('lemono-button__accent read postid-' + postidlist[i], '', '確認しました') + popupButton,
+                  Class : 'red'
+               });
+            }
+            else{
+               code = code + lemonoStyle.createCard({
+                  index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                  content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                  actions : popupButton,
+               });
+               
+               
+            }
+         }
+         $('.posts').html(code);
+         if($('.lemono-popup__content.active').attr('class') != undefined){
+            var thisClasses = $('.lemono-popup__content.active').attr('class').split(' ');
+            var i;
+            var contentname = '.dummy'
+            for(i = 0; i < thisClasses.length; i++){
+               console.log(thisClasses[i].substring(0,18))
+               if(thisClasses[i].substring(0,18) == 'lemono-popup__name'){
+                  contentname = thisClasses[i];
+               };
+            };
+            console.log('.lemono-popup__content.' + contentname)
+         }
+         
+         $('.lemono-popup').html(popup);
+         $('.lemono-popup__content.' + contentname).addClass('active')
+      });
+   });
+   $(document).on('click', '.read', function(){
+      var thisClasses = $(this).attr('class').split(' ');
+      var i;
+      for(i = 0; i < thisClasses.length; i++){
+         if(thisClasses[i].substring(0,7) == 'postid-'){
+            var postId = thisClasses[i].substring(7);
+         }
+      };
+      var readtemp = {};
+      readtemp[uid] = 'read'
+      firebase.database().ref('post/' + postId + '/uidlist').update(readtemp);
+      console.log('uodated')
+   });
+   $(document).on('click', '.delPost', function(){
+      var result = window.confirm('本当に削除しますか？')
+      if(result){
+         var thisClasses = $(this).attr('class').split(' ');
+         var i;
+         for(i = 0; i < thisClasses.length; i++){
+            if(thisClasses[i].substring(0,7) == 'postid-'){
+               var postId = thisClasses[i].substring(7);
+            }
+         };
+         var readtemp = {};
+         readtemp[uid] = 'read'
+         firebase.database().ref('post/' + postId).remove();
+         window.location.href = "./"
+      }
+   });
+   var notify = firebase.database().ref('notify');
+   notify.on('value', function(snapshot){
+      var notifydata = snapshot.val();
+      if(notifydata[uid] != null){
+         if(notifydata[uid]['line'] != null){
+            $('.line-notify').addClass('green');
+         $('.line-notify__index').html('登録済み');
+         }
+         if(notifydata[uid]['webpush'] != null){
+            $('.chrome-notify').addClass('green');
+         $('.chrome-notify__index').html('登録済み');
+         }
+      }
+   });
+   const messaging = firebase.messaging();
+   messaging.usePublicVapidKey("BCUxgO1Xi_Li3_CuoZ0rlQtAYFar1GhriUo5gQ3PMgwfHC_W18jTa1bSaOJo0Nd0RNAKKlMW1FFAeP8j5qk8xLk");
+   messaging.onMessage(function(payload) {
+      console.log('Message received. ', payload);
+      const title = '東京寮WEBアプリ';
+      const options = {
+      body: payload.data.content,
+      };
+      const notification = new Notification(title, options);
+   });
+   $(document).on('click', '.requestPermission', function(){
+      messaging.requestPermission()
+      .then(function() {
+         console.log('Notification permission granted.');
+         messaging.getToken()
+            .then(function(currentToken) {
+               if (currentToken) {
+                  var registeredToken = firebase.database().ref('notify/' + uid + '/webpush')
+                  registeredToken.once('value').then(function(snapshot) {
+                        var registeredTokenList = snapshot.val();
+                        if(registeredTokenList != null){
+                           var registeredTokenIndex = Object.keys(registeredTokenList);
+                           var i;
+                           var neworold = ''
+                           for(i = 0; i < registeredTokenIndex.length; i++){
+                              if(registeredTokenList[registeredTokenIndex[i]]['webpush'] === currentToken){
+                                 neworold = 'old';
+                              }
+                           }
+                           if(neworold == ''){
+                              firebase.database().ref('notify/' + uid + '/webpush').push({
+                                 webpush: currentToken
+                              });
+                           }
+                        }
+                        else{
+                           firebase.database().ref('notify/' + uid + '/webpush').push({
+                              webpush: currentToken
+                           });
+                        }
+                     });
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('POST', './sendwebpush');
+                  xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                  xhr.send( 'token=' + currentToken + '' );
+                  // ...
+               } else {
+                  console.log('No Instance ID token available. Request permission to generate one.');
+                  // ...
+               }
+            })
+            .catch(function(err) {
+               alert('エラーが発生しました。再読み込みしてもう一度やってください。うまくいかなければLINEで通知を受け取ってください。')
+
+            // ...
+            });
+      })
+      .catch(function(err) {
+         alert('通知の許可が得られませんでした。ダメそうならLINEで通知を受け取ってください。')
+      });
    })
 })

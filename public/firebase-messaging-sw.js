@@ -13,10 +13,10 @@ firebase.initializeApp({
 });
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload) {
-const notificationTitle = payload.notification.title;
+const notificationTitle = '東京寮WEBアプリ';
 const notificationOptions = {
-   body: payload.notification.body,
-   icon: payload.notification.icon
+   body: payload.data.content,
+   icon: '/icons/icon-192x192.png'
    };
 
    return self.registration.showNotification(notificationTitle, notificationOptions);
@@ -28,4 +28,8 @@ self.addEventListener('install', function(event) {
 
 self.addEventListener('activate', function(event) {
    console.log('Service Worker activating.');  
+});
+self.addEventListener('notificationclick', event => {
+   event.notification.close();
+   event.waitUntil(self.clients.openWindow('https://tokyoryo-20a72.web.app/'));
 });
