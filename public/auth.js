@@ -18,6 +18,7 @@ $(function(){
          uid = firebase.auth().currentUser.uid;
          var myInfo = database.ref('usersinfo/');
          var statuslist = database.ref('status/');
+         var notifylist = database.ref('notify/');
          var thisUrl = location.href;
          if(thisUrl.slice(-11) != 'editprofile'){
             myInfo.on('value', function(snapshot){
@@ -31,23 +32,35 @@ $(function(){
                      if(datalist[uid] == null){
                         window.location.href = "./status"
                      }
-                     else lemonoStyle.loaded()
+                     else if(thisUrl.slice(-7) != 'webpush'){
+                        notifylist.on('value', function(snapshot){
+                           var datalist = snapshot.val();
+                           if(datalist[uid] == null){
+                              window.location.href = "./webpush"
+                           }
+                           else{
+                              lemonoStyle.loaded()
+                           }
+                        });
+                     }
+                     else{
+                        lemonoStyle.loaded();
+                     }
                   });
                }
                else{
                   lemonoStyle.loaded();
                }
-            });
+            })
          }
          else{
-            lemonoStyle.loaded();
+            lemonoStyle.loaded()
          }
-         
-         
-      } else {
+      }
+      else {
          window.location.href = "./login"
       }
-   });
+   })
    $('.lemono-auth-signin').submit(function(){
       var email = $('.lemono-auth-signin [name=email]').val();
       var password = $('.lemono-auth-signin [name=password]').val();
@@ -208,7 +221,7 @@ $(function(){
          var postContent = {
             postedBy : uid,
             title : $('.post [name=title]').val(),
-            content : $('.post [name=content]').val()
+            content : $('.postcontent').html()
          }
          if(Object.keys(q).length > 0){
             postContent['q'] = q;
@@ -224,7 +237,7 @@ $(function(){
          var xhr = new XMLHttpRequest();
          xhr.open('POST', './sendnotify');
          xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-         xhr.send( 'senduidpostdata=' + senduidpostdata + '&title=' + $('.post [name=title]').val() + '&content=' + $('.post [name=content]').val() );
+         xhr.send( 'senduidpostdata=' + senduidpostdata + '&title=' + $('.post [name=title]').val());
          window.location.href = "./"
       })
       return false;
@@ -269,6 +282,7 @@ $(function(){
          for(i = postidlist.length - 1; i >= 0; i--){
             var posteddate = postidlist[i].substring(0,4) + '年' + postidlist[i].substring(4,6) + '月' + postidlist[i].substring(6,8) + '日 ' + postidlist[i].substring(8,10) + ':' + postidlist[i].substring(10,12)
             var readlist = postlist[postidlist[i]]['uidlist'];
+            var popupButton = ''
             if(readlist != null){
                var readuidlist = Object.keys(readlist);
                var j;
@@ -475,5 +489,122 @@ $(function(){
       .catch(function(err) {
          alert('通知の許可が得られませんでした。ダメそうならLINEで通知を受け取ってください。')
       });
+   })
+   $('.nonotify').on('click', function(){
+      firebase.database().ref('notify/' + uid).push({
+         nonotify: 'nonotify'
+      });
+      window.location.href = "./"
+   })
+   $(document).on('click', '.newtopic', function(){
+      var date = new Date();
+         var yyyy = date.getFullYear();
+         var mm = ("0"+(date.getMonth()+1)).slice(-2);
+         var dd = ("0"+date.getDate()).slice(-2);
+         var hh = ("0"+date.getHours()).slice(-2);
+         var mi = ("0"+date.getMinutes()).slice(-2);
+         var sc = ("0"+date.getSeconds()).slice(-2);
+         var postDate = yyyy + '' + mm + '' + dd + '' + hh + '' + mi + '' + sc;
+      firebase.database().ref('topic/' + postDate).set({
+         title: '新しいトピック',
+         content: '',
+         lastupdate: uid
+      });
+      
+      window.location.href = "../edit-" + postDate
+   })
+   if($('.topicid').html() != undefined){
+      var topicid = $('.topicid').html()
+      var topic = firebase.database().ref('topic/' + topicid)
+      topic.once('value').then(function(snapshot) {
+         var topicdata = snapshot.val();
+         $('.topictitle').val(topicdata['title']);
+         $('.topiccontent').html(topicdata['content'])
+         fileupdate(topicid)
+      })
+   }
+   if($('.showtopic').html() != undefined){
+      var topicid = $('.showtopic').html()
+      var topic = firebase.database().ref('topic/' + topicid)
+      topic.once('value').then(function(snapshot) {
+         var topicdata = snapshot.val();
+         $('.topictitle').html(topicdata['title']);
+         $('.insertthistopic').html(topicdata['content'])
+         fileupdate(topicid)
+      })
+   }
+   $('.posttopic').submit(function(){
+      var topicid = $('.topicid').html()
+      firebase.database().ref('topic/' + topicid).update({
+         title: $('.topictitle').val(),
+         content: $('.topiccontent').html(),
+         lastupdate: uid
+      });
+      window.location.href = './topic'
+      return false;
+   })
+   var topiclist = firebase.database().ref('topic');
+   topiclist.on('value', function(snapshot){
+      var topiclistdata = snapshot.val();
+      var toList = firebase.database().ref('/usersinfo')
+      toList.once('value').then(function(snapshot) {
+         var userinfolist = snapshot.val();
+         if(topiclistdata != null){
+            code = ''
+            topickeys = Object.keys(topiclistdata)
+            var i;
+            for (i = 0; i < topickeys.length; i++){
+               code = code + lemonoStyle.createCard({
+                  index : userinfolist[topiclistdata[topickeys[i]]['lastupdate']]['name'] + ' が最終更新',
+                  content : '<h4>' + topiclistdata[topickeys[i]]['title'] + '</h5>',
+                  actions : '<a href="./show-' + topickeys[i] + '">' + lemonoStyle.createButton('lemono-button__accent', '', 'このトピックを見る') + '</a><a href="./edit-' + topickeys[i] + '">' + lemonoStyle.createButton('lemono-button__flat', '', 'このトピックを編集する') + '</a>',
+                  Class: 'lemono-grid__span4'
+               });
+            }
+            $('.inserttopic').html(code)
+         }
+      })
+   })
+   $(document).on('click', '.upload', function(){
+      var files = document.getElementById('file').files;
+      var file = files[0]
+      var i;
+      var ref = firebase.storage().ref($('.topicid').html()).child(file.name);
+      ref.put(file).then(function(snapshot) {
+         firebase.database().ref('topic/' + topicid + '/files').push({
+            filename: file.name
+         });
+         fileupdate($('.topicid').html());
+         alert('アップロードしました');
+      });
+   })
+   var fileupdate = function(topicid){
+      $('.filelist').html('')
+      var topicdata = firebase.database().ref('topic/' + topicid + '/files')
+      topicdata.once('value').then(function(snapshot) {
+         var filelist = snapshot.val();
+         if(filelist != null){
+            var filekeys = Object.keys(filelist)
+            var i;
+            for(i = 0; i < filekeys.length; i++){
+               var filename = filelist[filekeys[i]]['filename'];
+               $('.filelist').append('<button class="lemono-button__border getdownloadlink" type="button" name="' + filename + '">' + filename + '</button>')
+            }
+            
+         }
+         
+      });
+   }
+   $(document).on('click', '.getdownloadlink', function(){
+      var filename = $(this).attr('name')
+      if($('.topicid').html() != undefined){
+         var topicid = $('.topicid').html()
+      }
+      if($('.showtopic').html() != undefined){
+         var topicid = $('.showtopic').html()
+      }
+      firebase.storage().ref(topicid).child(filename).getDownloadURL().then(function(url){
+         window.open(url)
+      })
    })
 })

@@ -351,6 +351,18 @@ h6{
    border: solid 2px var(--yellow);
    background-color: var(--yellow-pale);
 }
+.lemono-marking__normal{
+   border: none;
+   background-color: white;
+   color: var(--textcolor);
+}
+.lemono-marking__large{
+   border: none;
+   background-color: white;
+   color: var(--textcolor);
+   font-size: 2rem;
+   line-height: 3rem;
+}
 /*////////////////////////////////////////////////
          カード
 ////////////////////////////////////////////////*/
@@ -907,6 +919,70 @@ button{
    width: 1.5rem;
    height: 1.5rem;
    background-color: var(--accent);
+}
+/*////////////////////////////////////////////////
+         コンテンツエディタブル
+////////////////////////////////////////////////*/
+.lemono-contenteditable{
+   text-decoration: none;
+   background-color: transparent;
+   color: var(--textcolor);
+   margin: 1em 0.5em;
+   
+}
+.lemono-contenteditable > .lemono-contenteditable__title{
+   color: var(--textcolor);
+   font-size: 0.9em;
+   line-height: 0.9em;
+   margin: 3em 0 1em 0;
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea{
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 2px;
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea > .lemono-contenteditable__header{
+   border-bottom: solid 2px var(--gray);
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea > .lemono-contenteditable__header > .lemono-contenteditable__header__tools{
+   margin: 0.1em 0.5em 0.1em 0.5em;
+   display: inline-block;
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea > .lemono-contenteditable__header > .lemono-contenteditable__header__tools > button{
+   background-color: white;
+   border: solid 1px var(--gray);
+   padding: 0 1rem 0 1rem;
+   line-height: 2rem;
+   cursor: pointer;
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea > .lemono-contenteditable__header > .lemono-contenteditable__header__tools > button:hover{
+   background-color: var(--accent-pale);
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea > .lemono-contenteditable__content{
+   height: min(30em, 60vh);
+   padding: 0.2em 0.3em;
+   overflow: auto;
+   border-radius: 2px;
+}
+.lemono-contenteditable > .lemono-contenteditable__editablearea > .lemono-contenteditable__content:focus{
+   outline: none;
+   border: solid 1px var(--accent);
+}
+.lemono-textbox > textarea{
+   white-space: nowrap;
+   min-width: 5em;
+   height: 15em;
+   padding: 0.45em 0.3em;
+   margin: 0;
+   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+   border: solid 2px var(--gray);
+   border-radius: 2px;
+   width: 100%;
+   box-sizing: border-box;
+}
+.lemono-textbox > textarea:focus{
+   border: solid 2px var(--accent);
+   outline: none;
 }
 /*////////////////////////////////////////////////
          Katex

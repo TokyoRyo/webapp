@@ -1,0 +1,32 @@
+extends ./include/_layout-logined.pug
+
+block header
+   script(src="/auth.js")
+   script(src="/lemono-contenteditable.js")
+
+block contents
+   h3 エディタ
+   .lemono-contenteditable
+      .lemono-contenteditable__title エディタ
+      .lemono-contenteditable__editablearea
+         .lemono-contenteditable__header
+            .lemono-contenteditable__header__tools
+               button.lemono-contenteditable__button-color(name="lemono-marking__normal")
+                  span.lemono-marking__normal 標準
+               button.lemono-contenteditable__button-color(name="lemono-marking__large")
+                  span.lemono-marking__normal 大きく
+               button.lemono-contenteditable__button-color(name="lemono-marking__important")
+                  span.lemono-marking__important 重要
+               button.lemono-contenteditable__button-color(name="lemono-marking__note")
+                  span.lemono-marking__note 注意
+               button.lemono-contenteditable__button-color(name="lemono-marking__red")
+                  span.lemono-marking__red 赤色
+               button.lemono-contenteditable__button-color(name="lemono-marking__green")
+                  span.lemono-marking__green 緑色
+               button.lemono-contenteditable__button-color(name="lemono-marking__blue")
+                  span.lemono-marking__blue 青色
+               button.lemono-contenteditable__button-color(name="lemono-marking__purple")
+                  span.lemono-marking__purple 紫色
+               button.lemono-contenteditable__button-color(name="lemono-marking__yellow")
+                  span.lemono-marking__yellow 黄色
+         .lemono-contenteditable__content(contenteditable="true") aaa
