@@ -135,7 +135,7 @@ $(function(){
                code2 = `${code2}<tr><td>${userslist[uidlist[i]]['name']}</td><td>${userslist[uidlist[i]]['grade']}</td><td>${userslist[uidlist[i]]['job']}</td><td>${userslist[uidlist[i]]['floor']}</td><td>${userslist[uidlist[i]]['linename']}</td><td>${thisStatus}</td></tr>`
             }
             else if(userslist[uidlist[i]]['grade'] == '3年生'){
-               code3 = `${code1}<tr><td>${userslist[uidlist[i]]['name']}</td><td>${userslist[uidlist[i]]['grade']}</td><td>${userslist[uidlist[i]]['job']}</td><td>${userslist[uidlist[i]]['floor']}</td><td>${userslist[uidlist[i]]['linename']}</td><td>${thisStatus}</td></tr>`
+               code3 = `${code3}<tr><td>${userslist[uidlist[i]]['name']}</td><td>${userslist[uidlist[i]]['grade']}</td><td>${userslist[uidlist[i]]['job']}</td><td>${userslist[uidlist[i]]['floor']}</td><td>${userslist[uidlist[i]]['linename']}</td><td>${thisStatus}</td></tr>`
             }
             else if(userslist[uidlist[i]]['grade'] == '4年生'){
                code4 = `${code4}<tr><td>${userslist[uidlist[i]]['name']}</td><td>${userslist[uidlist[i]]['grade']}</td><td>${userslist[uidlist[i]]['job']}</td><td>${userslist[uidlist[i]]['floor']}</td><td>${userslist[uidlist[i]]['linename']}</td><td>${thisStatus}</td></tr>`
@@ -339,32 +339,48 @@ $(function(){
                }
                popupButton = lemonoStyle.createButton('lemono-button__flat lemono-popup__open lemono-popup__name-' + postidlist[i] , '', readn + '/' + Number(readn + unreadn) + 'が確認済み')
                popup = popup + '<div class="lemono-popup__content lemono-popup__name-' + postidlist[i] + '"><h5>確認済み</h5>' + read1 + '<br>' + read2 + '<br>' + read3 + '<br>' + read4 + '<br>' + read5 + '<h5>未確認</h5>' + unread1 + '<br>' + unread2 + '<br>' + unread3 + '<br>' + unread4 + '<br>' + unread5 + '<br>' + lemonoStyle.createButton('lemono-button__accent lemono-popup__close' , '', '閉じる') + '</div>'
-            }
-            if(postlist[postidlist[i]]['postedBy'] == uid){
-               code = code + lemonoStyle.createCard({
-                  index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
-                  rightIndex : 'あなたが投稿',
-                  content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
-                  actions : lemonoStyle.createButton('lemono-button__dark delPost postid-' + postidlist[i], '', 'この掲示を削除する') + popupButton,
-                  Class : 'green'
-               });
-            }
-            else if(postlist[postidlist[i]]['uidlist'][uid] == 'unread'){
-               code = code + lemonoStyle.createCard({
-                  index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
-                  rightIndex : '要確認',
-                  content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
-                  actions : lemonoStyle.createButton('lemono-button__accent read postid-' + postidlist[i], '', '確認しました') + popupButton,
-                  Class : 'red'
-               });
+               if(postlist[postidlist[i]]['postedBy'] == uid){
+                  code = code + lemonoStyle.createCard({
+                     index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                     rightIndex : 'あなたが投稿',
+                     content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                     actions : lemonoStyle.createButton('lemono-button__dark delPost postid-' + postidlist[i], '', 'この掲示を削除する') + popupButton,
+                     Class : 'green'
+                  });
+               }
+               else if(postlist[postidlist[i]]['uidlist'][uid] == 'unread'){
+                  code = code + lemonoStyle.createCard({
+                     index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                     rightIndex : '要確認',
+                     content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                     actions : lemonoStyle.createButton('lemono-button__accent read postid-' + postidlist[i], '', '確認しました') + popupButton,
+                     Class : 'red'
+                  });
+               }
+               else{
+                  code = code + lemonoStyle.createCard({
+                     index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                     content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                     actions : popupButton,
+                  });
+               }
             }
             else{
-               code = code + lemonoStyle.createCard({
-                  index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
-                  content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
-                  actions : popupButton,
-               });
-               
+               if(postlist[postidlist[i]]['postedBy'] == uid){
+                  code = code + lemonoStyle.createCard({
+                     index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                     rightIndex : 'あなたが投稿',
+                     content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                     actions : lemonoStyle.createButton('lemono-button__dark delPost postid-' + postidlist[i], '', 'この掲示を削除する'),
+                     Class : 'green'
+                  });
+               }
+               else{
+                  code = code + lemonoStyle.createCard({
+                     index : userinfolist[postlist[postidlist[i]]['postedBy']]['name'] + ' が投稿',
+                     content : posteddate + '<h4>' + postlist[postidlist[i]]['title'] + '</h5>' + postlist[postidlist[i]]['content'].replace(/\n/g, '<br>'),
+                  });
+               }
                
             }
          }
@@ -606,5 +622,70 @@ $(function(){
       firebase.storage().ref(topicid).child(filename).getDownloadURL().then(function(url){
          window.open(url)
       })
+   })
+   var positivedata = firebase.database().ref('index');
+   positivedata.on('value', function(snapshot){
+      var data = snapshot.val();
+      var positivelist = Object.keys(data['positive']['data']);
+      var i;
+      var sevenDaysPositive = 0;
+      var th = ''
+      var td = ''
+      for(i = 0; i < positivelist.length; i++){
+         sevenDaysPositive = sevenDaysPositive + Number(data['positive']['data'][positivelist[i]])
+         th = '<th>' + positivelist[i] + '</th>' + th
+         td = '<td>陽性報告数：' + data['positive']['data'][positivelist[i]] + '人</td>' + td
+      }
+      if(sevenDaysPositive > 140){
+         var positive = '<span class="lemono-marking__red">安全レベル1基準</span>'
+      }
+      else if(sevenDaysPositive > 105){
+         var positive = '<span class="lemono-marking__yellow">安全レベル0/1継続基準</span>'
+      }
+      else{
+         var positive = '<span class="lemono-marking__green">安全レベル0基準</span>'
+      }
+      if(data['tokyoalert'] == 'yes'){
+         var tokyoalert = '<span class="lemono-marking__red">東京アラート発令中(安全レベル1基準)</span>'
+      }
+      else{
+         var tokyoalert = '<span class="lemono-marking__green">東京アラート発令なし(安全レベル0基準)</span>'
+      }
+      if(data['EmergencyDeclaration'] == 'yes'){
+         var EmergencyDeclaration = '<span class="lemono-marking__red">東京都に緊急事態宣言発令中(安全レベル1基準)</span>'
+      }
+      else{
+         var EmergencyDeclaration = '<span class="lemono-marking__green">東京都に緊急事態宣言発令なし(安全レベル0基準)</span>'
+      }
+      if((sevenDaysPositive > 140)||(data['tokyoalert'] == 'yes')||(data['EmergencyDeclaration'] == 'yes')){
+         var positiveClass = 'red'
+      }
+      else if(sevenDaysPositive > 105){
+         var positiveClass = 'yellow'
+      }
+      else{
+         var positiveClass = 'green'
+      }
+      var dayname = positivelist[positivelist.length - 1].replace(/-/g, '/');
+      var thisDay = new Date()
+      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate() + 1)).slice(-2)) == dayname){
+         dayname = '今日' + dayname;
+      }
+      thisDay.setDate(thisDay.getDate() - 1)
+      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate())).slice(-2)) == dayname){
+         dayname = 'きのう' + dayname;
+      }
+      thisDay.setDate(thisDay.getDate() - 1)
+      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate())).slice(-2)) == dayname){
+         dayname = 'おととい' + dayname;
+         thisDay.setDate(thisDay.getDate() - 1)
+      }
+      var code = '<h4>' + sevenDaysPositive + '人</h4>最近7日間の新規陽性報告数合計<br>' + positive + '<div class="lemono-table"><table><tbody><tr>' + th + '</tr><tr>' + td + '</tr></tbody></table></div>' + '<br>' + tokyoalert + '<br>' + EmergencyDeclaration + '<br><br>陽性患者数は' + data['positive']['update'] +'時点のデータで10分ごとに自動更新。東京アラートと緊急事態宣言は手動入力。<a href="https://catalog.data.metro.tokyo.lg.jp/dataset/t000010d0000000068" target="blank">データの出典</a>'
+      $('.positivedata').html(lemonoStyle.createCard({
+         index: dayname + 'のデータ',
+         rightIndex: 'ライブ',
+         content: code,
+         Class: positiveClass
+      }))
    })
 })

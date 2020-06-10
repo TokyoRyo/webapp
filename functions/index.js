@@ -4,7 +4,7 @@ const path = require("path")
 const line = require('@line/bot-sdk');
 var admin = require('firebase-admin');
 var serviceAccount = require('./secretKey.json')
-const sendmail = require('sendmail')();
+var request = require('request');
 admin.initializeApp({
    credential: admin.credential.applicationDefault(),
    databaseURL: 'https://tokyoryo-20a72.firebaseio.com'
@@ -14,8 +14,66 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 const api = functions.https.onRequest(app)
+const getPositiveData = functions.pubsub.schedule('*/10 * * * *').onRun((context) => {
+   request('https://stopcovid19.metro.tokyo.lg.jp/data/130001_tokyo_covid19_patients.csv', (error, response, data) => {
+      // エラーチェック
+      if( error !== null ){
+         console.error('error:', error);
+         return(false);
+      }
+
+      var linedata = data.split('\n');
+      var i,j;
+      var datedata = []
+      var index = -1;
+      var indexlist = linedata[0].split(',');
+      for(i = 0; i < indexlist.length; i++){
+         if(indexlist[i] === '公表_年月日'){
+            index = i
+         }
+      }
+      if(index === -1){
+         return false
+      }
+      for(i = 1; i < linedata.length; i++){
+         datedata.push(linedata[i].split(',')[index])
+      }
+      require('date-utils');
+      var removedays = -1
+      for(i = 0; i < 8; i++){
+         if(datedata.indexOf((new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000))).remove({"days": i}).toFormat('YYYY-MM-DD')) !== -1){
+            removedays = i
+            break
+         }
+      }
+      if(removedays === -1){
+         return false;
+      }
+      let now = new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000));
+      now.remove({"days": removedays - 1});
+      var day = [];
+      for(i = 0; i < 7; i++){
+         day[i] = now.remove({'days': 1}).toFormat('YYYY-MM-DD')
+      }
+      var positivelist = {}
+      for(i = 0; i < 7; i++){
+         positivelist[day[i]] = 0;
+      }
+      for(i = 0; i < datedata.length; i++){
+         for(j = 0; j < 7; j++){
+            if(datedata[i] === day[j]){
+               positivelist[day[j]]++;
+            }
+         }
+      }
+      admin.database().ref('index/positive').set({data: positivelist, update: new Date(Date.now() + ((new Date().getTimezoneOffset() + (9 * 60)) * 60 * 1000)).toFormat("YYYY/MM/DD HH24:MI")});
+      
+      return null;
+   });
+   return null;
+});
 module.exports = {
-   api
+   api,getPositiveData
 }
 var bodyParser = require('body-parser');
 app.use(bodyParser());
@@ -55,9 +113,7 @@ app.get('/status', (req, res, next) => {
 app.get('/login', (req, res, next) => {
    res.render('login', { title: 'ログイン' });
 });
-app.get('/contente', (req, res, next) => {
-   res.render('contente', { title: 'コンテンツエディタブル' });
-});
+
 app.post('/confirm', (req, res, next) => {
    var confirm = require('./imports/confirm');
    if(confirm.confirm(req.body.password)){
@@ -200,4 +256,4 @@ async function handleEvent(event) {
    return false;
 }
 
-exports.app = functions.https.onRequest(app);
+exports.app = functions.region('asia-northeast1').https.onRequest(app);
