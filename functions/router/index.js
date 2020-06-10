@@ -2,7 +2,7 @@ var express = require('express');
 const functions = require('firebase-functions');
 var app = express.Router();
 /* GET home page. */
-router.get('/', function(req, res, nest) {
+router.get('/', (req, res, nest) => {
    res.render('index', { title: 'Node.js Test' });
 });
 

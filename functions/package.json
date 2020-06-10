@@ -16,12 +16,15 @@
     "@line/bot-sdk": "^6.8.4",
     "body-parser": "^1.19.0",
     "constantinople": "^4.0.1",
+    "date-utils": "^1.2.21",
     "express": "^4.17.1",
     "firebase": "^7.14.4",
     "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.6.1",
+    "firebase-functions": "^3.6.2",
     "jade": "^1.11.0",
+    "node-cron": "^2.0.3",
     "pug": "^2.0.4",
+    "request": "^2.88.2",
     "sendmail": "^1.6.1"
   },
   "devDependencies": {
