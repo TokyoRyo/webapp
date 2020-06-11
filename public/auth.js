@@ -668,7 +668,7 @@ $(function(){
       }
       var dayname = positivelist[positivelist.length - 1].replace(/-/g, '/');
       var thisDay = new Date()
-      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate() + 1)).slice(-2)) == dayname){
+      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate())).slice(-2)) == dayname){
          dayname = '今日' + dayname;
       }
       thisDay.setDate(thisDay.getDate() - 1)
