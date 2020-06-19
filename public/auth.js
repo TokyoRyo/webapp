@@ -445,67 +445,6 @@ $(function(){
          }
       }
    });
-   const messaging = firebase.messaging();
-   messaging.usePublicVapidKey("BCUxgO1Xi_Li3_CuoZ0rlQtAYFar1GhriUo5gQ3PMgwfHC_W18jTa1bSaOJo0Nd0RNAKKlMW1FFAeP8j5qk8xLk");
-   messaging.onMessage(function(payload) {
-      console.log('Message received. ', payload);
-      const title = '東京寮WEBアプリ';
-      const options = {
-      body: payload.data.content,
-      };
-      const notification = new Notification(title, options);
-   });
-   $(document).on('click', '.requestPermission', function(){
-      messaging.requestPermission()
-      .then(function() {
-         console.log('Notification permission granted.');
-         messaging.getToken()
-            .then(function(currentToken) {
-               if (currentToken) {
-                  var registeredToken = firebase.database().ref('notify/' + uid + '/webpush')
-                  registeredToken.once('value').then(function(snapshot) {
-                        var registeredTokenList = snapshot.val();
-                        if(registeredTokenList != null){
-                           var registeredTokenIndex = Object.keys(registeredTokenList);
-                           var i;
-                           var neworold = ''
-                           for(i = 0; i < registeredTokenIndex.length; i++){
-                              if(registeredTokenList[registeredTokenIndex[i]]['webpush'] === currentToken){
-                                 neworold = 'old';
-                              }
-                           }
-                           if(neworold == ''){
-                              firebase.database().ref('notify/' + uid + '/webpush').push({
-                                 webpush: currentToken
-                              });
-                           }
-                        }
-                        else{
-                           firebase.database().ref('notify/' + uid + '/webpush').push({
-                              webpush: currentToken
-                           });
-                        }
-                     });
-                  var xhr = new XMLHttpRequest();
-                  xhr.open('POST', './sendwebpush');
-                  xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-                  xhr.send( 'token=' + currentToken + '' );
-                  // ...
-               } else {
-                  console.log('No Instance ID token available. Request permission to generate one.');
-                  // ...
-               }
-            })
-            .catch(function(err) {
-               alert('エラーが発生しました。再読み込みしてもう一度やってください。うまくいかなければLINEで通知を受け取ってください。')
-
-            // ...
-            });
-      })
-      .catch(function(err) {
-         alert('通知の許可が得られませんでした。ダメそうならLINEで通知を受け取ってください。')
-      });
-   })
    $('.nonotify').on('click', function(){
       firebase.database().ref('notify/' + uid).push({
          nonotify: 'nonotify'
@@ -668,7 +607,7 @@ $(function(){
       }
       var dayname = positivelist[positivelist.length - 1].replace(/-/g, '/');
       var thisDay = new Date()
-      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate() + 1)).slice(-2)) == dayname){
+      if((thisDay.getFullYear() + '/' + ('00' + (thisDay.getMonth() + 1)).slice(-2) + '/' + ('00' + (thisDay.getDate())).slice(-2)) == dayname){
          dayname = '今日' + dayname;
       }
       thisDay.setDate(thisDay.getDate() - 1)
@@ -687,5 +626,66 @@ $(function(){
          content: code,
          Class: positiveClass
       }))
+   })
+   const messaging = firebase.messaging();
+   messaging.usePublicVapidKey("BCUxgO1Xi_Li3_CuoZ0rlQtAYFar1GhriUo5gQ3PMgwfHC_W18jTa1bSaOJo0Nd0RNAKKlMW1FFAeP8j5qk8xLk");
+   messaging.onMessage(function(payload) {
+      console.log('Message received. ', payload);
+      const title = '東京寮WEBアプリ';
+      const options = {
+      body: payload.data.content,
+      };
+      const notification = new Notification(title, options);
+   });
+   $(document).on('click', '.requestPermission', function(){
+      messaging.requestPermission()
+      .then(function() {
+         console.log('Notification permission granted.');
+         messaging.getToken()
+            .then(function(currentToken) {
+               if (currentToken) {
+                  var registeredToken = firebase.database().ref('notify/' + uid + '/webpush')
+                  registeredToken.once('value').then(function(snapshot) {
+                        var registeredTokenList = snapshot.val();
+                        if(registeredTokenList != null){
+                           var registeredTokenIndex = Object.keys(registeredTokenList);
+                           var i;
+                           var neworold = ''
+                           for(i = 0; i < registeredTokenIndex.length; i++){
+                              if(registeredTokenList[registeredTokenIndex[i]]['webpush'] === currentToken){
+                                 neworold = 'old';
+                              }
+                           }
+                           if(neworold == ''){
+                              firebase.database().ref('notify/' + uid + '/webpush').push({
+                                 webpush: currentToken
+                              });
+                           }
+                        }
+                        else{
+                           firebase.database().ref('notify/' + uid + '/webpush').push({
+                              webpush: currentToken
+                           });
+                        }
+                     });
+                  var xhr = new XMLHttpRequest();
+                  xhr.open('POST', './sendwebpush');
+                  xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+                  xhr.send( 'token=' + currentToken + '' );
+                  // ...
+               } else {
+                  console.log('No Instance ID token available. Request permission to generate one.');
+                  // ...
+               }
+            })
+            .catch(function(err) {
+               alert('エラーが発生しました。再読み込みしてもう一度やってください。うまくいかなければLINEで通知を受け取ってください。')
+
+            // ...
+            });
+      })
+      .catch(function(err) {
+         alert('通知の許可が得られませんでした。ダメそうならLINEで通知を受け取ってください。')
+      });
    })
 })
