@@ -627,17 +627,9 @@ $(function(){
          Class: positiveClass
       }))
    })
-   const messaging = firebase.messaging();
-   messaging.usePublicVapidKey("BCUxgO1Xi_Li3_CuoZ0rlQtAYFar1GhriUo5gQ3PMgwfHC_W18jTa1bSaOJo0Nd0RNAKKlMW1FFAeP8j5qk8xLk");
-   messaging.onMessage(function(payload) {
-      console.log('Message received. ', payload);
-      const title = '東京寮WEBアプリ';
-      const options = {
-      body: payload.data.content,
-      };
-      const notification = new Notification(title, options);
-   });
    $(document).on('click', '.requestPermission', function(){
+      const messaging = firebase.messaging();
+      messaging.usePublicVapidKey("BCUxgO1Xi_Li3_CuoZ0rlQtAYFar1GhriUo5gQ3PMgwfHC_W18jTa1bSaOJo0Nd0RNAKKlMW1FFAeP8j5qk8xLk");
       messaging.requestPermission()
       .then(function() {
          console.log('Notification permission granted.');
