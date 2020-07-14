@@ -61,6 +61,29 @@ $(function(){
          window.location.href = "./login"
       }
    })
+   console.log('Checking topic ID...')
+   if($('.topicid').html() != undefined){
+      console.log('.topicid is defined.')
+      var topicid = $('.topicid').html()
+      var topic = firebase.database().ref('topic/' + topicid)
+      topic.once('value').then(function(snapshot) {
+         var topicdata = snapshot.val();
+         $('.topictitle').val(topicdata['title']);
+         $('.topiccontent').html(topicdata['content'])
+         fileupdate(topicid)
+      })
+   }
+   if($('.showtopic').html() != undefined){
+      console.log('.showtopic is defined.')
+      var topicid = $('.showtopic').html()
+      var topic = firebase.database().ref('topic/' + topicid)
+      topic.once('value').then(function(snapshot) {
+         var topicdata = snapshot.val();
+         $('.topictitle').html(topicdata['title']);
+         $('.insertthistopic').html(topicdata['content'])
+         fileupdate(topicid)
+      })
+   }
    $('.lemono-auth-signin').submit(function(){
       var email = $('.lemono-auth-signin [name=email]').val();
       var password = $('.lemono-auth-signin [name=password]').val();
@@ -468,26 +491,6 @@ $(function(){
       
       window.location.href = "../edit-" + postDate
    })
-   if($('.topicid').html() != undefined){
-      var topicid = $('.topicid').html()
-      var topic = firebase.database().ref('topic/' + topicid)
-      topic.once('value').then(function(snapshot) {
-         var topicdata = snapshot.val();
-         $('.topictitle').val(topicdata['title']);
-         $('.topiccontent').html(topicdata['content'])
-         fileupdate(topicid)
-      })
-   }
-   if($('.showtopic').html() != undefined){
-      var topicid = $('.showtopic').html()
-      var topic = firebase.database().ref('topic/' + topicid)
-      topic.once('value').then(function(snapshot) {
-         var topicdata = snapshot.val();
-         $('.topictitle').html(topicdata['title']);
-         $('.insertthistopic').html(topicdata['content'])
-         fileupdate(topicid)
-      })
-   }
    $('.posttopic').submit(function(){
       var topicid = $('.topicid').html()
       firebase.database().ref('topic/' + topicid).update({

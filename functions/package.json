@@ -10,7 +10,7 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "dependencies": {
     "@line/bot-sdk": "^6.8.4",
@@ -20,7 +20,7 @@
     "express": "^4.17.1",
     "firebase": "^7.14.4",
     "firebase-admin": "^8.12.1",
-    "firebase-functions": "^3.6.2",
+    "firebase-functions": "^3.8.0",
     "jade": "^1.11.0",
     "node-cron": "^2.0.3",
     "pug": "^2.0.4",
