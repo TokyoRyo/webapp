@@ -21,7 +21,6 @@ const getPositiveData = functions.pubsub.schedule('*/10 * * * *').onRun((context
          console.error('error:', error);
          return(false);
       }
-
       var linedata = data.split('\n');
       var i,j;
       var datedata = []
@@ -36,7 +35,7 @@ const getPositiveData = functions.pubsub.schedule('*/10 * * * *').onRun((context
          return false
       }
       for(i = 1; i < linedata.length; i++){
-         datedata.push(linedata[i].split(',')[index])
+         datedata.push(linedata[i].split(',')[index]);
       }
       require('date-utils');
       var removedays = -1
@@ -85,35 +84,6 @@ const config = {
    channelAccessToken: 'f/6tsH7+1ECNZaEx3i7du/+VC+ceSV4cd+SQHE4ASeBs6kF0/K+5/3VvIrtVaWY0DyEdqDHe3H2Wgw6WOL7lKm6gAEEIUfylwZqKntZnnqYEBO0fo5zHoSB5tq2S+Xwo+jlNQqOUviipvIDdnzfWwQdB04t89/1O/w1cDnyilFU='
 };
 const client = new line.Client(config);
-
-app.get('/', (req, res, next) => {
-   res.render('index', { title: '東京寮ウェブアプリ' });
-});
-app.get('/post', (req, res, next) => {
-   res.render('post', { title: '掲示' });
-});
-app.get('/members', (req, res, next) => {
-   res.render('members', { title: 'メンバー' });
-});
-app.get('/topic', (req, res, next) => {
-   res.render('topic', { title: 'トピック' });
-});
-app.get('/edit-:id', (req, res, next) => {
-   res.render('edittopic', { title: 'トピックの編集', id:req.params['id'] });
-});
-app.get('/show-:id', (req, res, next) => {
-   res.render('showtopic', { title: 'トピックを見る', id:req.params['id'] });
-});
-app.get('/onlinemeeting', (req, res, next) => {
-   res.render('onlinemeeting', { title: 'オンライン会議' });
-});
-app.get('/status', (req, res, next) => {
-   res.render('status', { title: '在寮/帰省/外泊' });
-});
-app.get('/login', (req, res, next) => {
-   res.render('login', { title: 'ログイン' });
-});
-
 app.post('/confirm', (req, res, next) => {
    var confirm = require('./imports/confirm');
    if(confirm.confirm(req.body.password)){
@@ -123,29 +93,6 @@ app.post('/confirm', (req, res, next) => {
       res.render('loginerror', { title: 'ログイン' });
    }
 })
-app.get('/editprofile', (req, res, next) => {
-   res.render('editprofile', { title: 'プロフィールの設定' });
-});
-app.get('/webpush', (req, res, next) => {
-   res.render('webpush', { title: '通知の設定' });
-});
-app.get('/dict', (req, res, next) => {
-   var data = {"80WK3Ty73IeERHVA7fYD4QVGMa32":{"floor":"4階","grade":"4年生","job":"ネットワーク","linename":"よっこい","name":"末長祥一"},"KhS0XBTCBFeo1PtcN2Vfc9tPZKB3":{"floor":"4階","grade":"院生等","job":"ネットワーク","linename":"赤沢第輔(DaisukeAkazawa)","name":"赤沢第輔"},"PCQ24Ag3OWZpRyaMCuVJKX3THF32":{"floor":"未指定/分からない","grade":"学年：未指定/分からない","job":"役職：未指定/分からない","linename":"かさ","name":"あかさた"},"urTjss5KYcVhzdo0oIyRrLU4ESA3":{"floor":"未指定/分からない","grade":"学年：未指定/分からない","job":"役職：未指定/分からない","linename":"なし","name":"サンプルアカウント"},"zDuT0OuB6yaTsiRydsXQiyDOHzo2":{"floor":"4階","grade":"院生等","job":"会計","linename":"ochiai","name":"落合 厚"}}
-   var uidlist = Object.keys(data);
-   var i;
-   var getName = '赤沢第輔'
-   code = ''
-   for(i = 0; i < uidlist.length; i++){
-      if(data[uidlist[i]]['name'] === getName){
-         code = code + data[uidlist[i]]['name'] + 'は一致しました。 / '
-      }
-      else{
-         code = code + data[uidlist[i]]['name'] + 'は一致しませんでした。 / '
-      }
-   }
-   return res.send(code)
-});
-
 app.post('/webhook', line.middleware(config), (req, res) => {
    console.log(req.body.events);
    Promise
@@ -172,7 +119,7 @@ app.post('/sendwebpush', (req, res, next) => {
 });
 app.post('/sendnotify', (req, res, next) => {
    var db = admin.database();
-   var ref = db.ref("notify"); 
+   var ref = db.ref("usersinfo"); 
    ref.once("value").then(data => {
       var uidstring = req.body.senduidpostdata;
       var uidlist = uidstring.split(',')
@@ -183,19 +130,19 @@ app.post('/sendnotify', (req, res, next) => {
       var j;
       var keys = [];
       for(i = 0; i < uidlist.length - 1; i++){
-         if(notifydata[uidlist[i]] !== undefined){
-            if(notifydata[uidlist[i]]['webpush'] !== undefined){
-               keys = Object.keys(notifydata[uidlist[i]]['webpush'])
+         if(notifydata[uidlist[i]]['notify'] !== undefined){
+            if(notifydata[uidlist[i]]['notify']['webpush'] !== undefined){
+               keys = Object.keys(notifydata[uidlist[i]]['notify']['webpush'])
                for(j = 0; j < keys.length; j++){
-                  webpushlist.push(notifydata[uidlist[i]]['webpush'][keys[j]]['webpush'])
+                  webpushlist.push(notifydata[uidlist[i]]['notify']['webpush'][keys[j]]['webpush'])
                }
             }
          }
-         if(notifydata[uidlist[i]] !== undefined){
-            if(notifydata[uidlist[i]]['line'] !== undefined){
-               keys = Object.keys(notifydata[uidlist[i]]['line'])
+         if(notifydata[uidlist[i]]['notify'] !== undefined){
+            if(notifydata[uidlist[i]]['notify']['line'] !== undefined){
+               keys = Object.keys(notifydata[uidlist[i]]['notify']['line'])
                for(j = 0; j < keys.length; j++){
-                  linelist.push(notifydata[uidlist[i]]['line'][keys[j]]['line'])
+                  linelist.push(notifydata[uidlist[i]]['notify']['line'][keys[j]]['line'])
                }
             }
          }
@@ -222,6 +169,61 @@ app.post('/sendnotify', (req, res, next) => {
    
    res.render('editprofile', { title: '実験' });
 });
+app.post('/sendpersonalnotify', (req, res, next) => {
+   var db = admin.database();
+   var ref = db.ref("usersinfo"); 
+   ref.once("value").then(data => {
+      var uidstring = req.body.senduidpostdata;
+      var uidlist = uidstring.split(',')
+      var notifydata = data.val();
+      var i;
+      var webpushlist = [];
+      var linelist = [];
+      var j;
+      var keys = [];
+      for(i = 0; i < uidlist.length - 1; i++){
+         if(notifydata[uidlist[i]]['notify'] !== undefined){
+            if(notifydata[uidlist[i]]['notify']['webpush'] !== undefined){
+               keys = Object.keys(notifydata[uidlist[i]]['notify']['webpush'])
+               for(j = 0; j < keys.length; j++){
+                  webpushlist.push(notifydata[uidlist[i]]['notify']['webpush'][keys[j]]['webpush'])
+               }
+            }
+         }
+         if(notifydata[uidlist[i]]['notify'] !== undefined){
+            if(notifydata[uidlist[i]]['notify']['line'] !== undefined){
+               keys = Object.keys(notifydata[uidlist[i]]['notify']['line'])
+               for(j = 0; j < keys.length; j++){
+                  linelist.push(notifydata[uidlist[i]]['notify']['line'][keys[j]]['line'])
+               }
+            }
+         }
+      }
+      if(linelist !== []){
+         const linemessage = {
+            type: 'text',
+            text: req.body.content + '\n(ここにメッセージしても返信できません。要件がある場合は直接連絡してください。)'
+         }
+         client.multicast(linelist, [linemessage])
+      }
+      if(webpushlist !== []){
+         const webpushmessage = {
+            data: {content: req.body.content },
+            tokens: webpushlist
+         }
+         admin.messaging().sendMulticast(webpushmessage)
+      }
+      return false;
+   })
+   .catch(error => {
+      return false;
+   });
+   
+   res.render('editprofile', { title: '実験' });
+});
+app.get('/*', (req, res, next) => {
+   res.render('index');
+});
 async function handleEvent(event) {
    if (event.type !== 'message' || event.message.type !== 'text') {
       return Promise.resolve(null);
@@ -240,15 +242,16 @@ async function handleEvent(event) {
          }
       }
       if(gotuid !== ''){
-         admin.database().ref('notify/' + gotuid + '/line').push({
+         admin.database().ref('usersinfo/' + gotuid + '/notify/line').push({
             line: event.source.userId
          });
          return client.replyMessage(event.replyToken, {
             type: 'text',
             text: '正常に登録されました。\n今後あなた宛ての通知をお送りします。\n大切な通知ですので、通知をOFFにしないでください。'
          });
+      }else{
+         return false;
       }
-      return false;
    })
    .catch(error => {
       return false;
