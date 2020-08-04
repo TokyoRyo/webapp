@@ -1,17 +1,430 @@
-extends ./include/_layout-logined.pug
-
-block contents
-   h3 指標
-   .positivedata
-   h3 掲示
-   .posts 掲示はありません。
-
-block header
-   title= ホーム-東京寮WebApp
-   script(src="/auth.js")
-   meta(name="apple-mobile-web-app-capable", content="yes")
-   meta(name="apple-mobile-web-app-status-bar-style", content="black")
-   meta(name="apple-mobile-web-app-title", content="東京寮WebApp")
-   link(rel="apple-touch-icon", href="/icons/icon-152x152.png")
-   link(rel="manifest", href="/manifest.json")
-   script if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').then((reg) => {console.log('Service worker registered.', reg);});}
+doctype html
+html
+   head
+      meta(charset='utf-8')
+      link(rel="icon", href="/favicon.ico")
+      meta(name="viewport", content="width=device-width, initial-scale=1")
+      meta(name="robots", content="noindex,nofollow")
+      link(href="/webapp.css?ver114b=aa", rel="stylesheet")
+      link(href="https://fonts.googleapis.com/css?family=Lato:400,700|Noto+Sans+JP:400,700", rel="stylesheet")
+      link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css", integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk", crossorigin="anonymous")
+      link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.14.0/css/all.css")
+      link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.14.0/css/v4-shims.css")
+      script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
+      script(src="/bowser.min.js")
+      script(src="/BrowtherCheck.js?ver2.0.0")
+      script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo", crossorigin="anonymous")
+      script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI", crossorigin="anonymous")
+      script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js")
+      script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js")
+      script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-auth.js")
+      script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-database.js")
+      script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-storage.js")
+      script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js")
+      script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js")
+      script(src="/webapp.js?ver2.0.0")
+      link(href="/webapp.css?ver2.0.0", rel="stylesheet")
+      link(href="/lmn.css?ver2.0.0", rel="stylesheet")
+      link(href="/lmnEditor.css?ver114b=aa", rel="stylesheet")
+      script(src="/lmnEditor.js?ver2.0.0")
+      meta(name="apple-mobile-web-app-capable", content="yes")
+      meta(name="apple-mobile-web-app-status-bar-style", content="black")
+      meta(name="apple-mobile-web-app-title", content="東京寮WebApp")
+      link(rel="apple-touch-icon", href="/icons/icon-152x152.png")
+      link(rel="manifest", href="/manifest.json")
+      script if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').then((reg) => {console.log('Service worker registered.', reg);});}
+      title 東京寮WebApp
+   body
+      .AppFrame
+         .UnSupport
+         main.AppContent
+            .AppMain.Hide.Home.ListLayer
+               .ListLayerList.post
+               .ListLayerPush.post
+                  a(href="/newpost").app-link
+                     span.ListLayerListIndex
+                        i.fa.fa-plus-square(aria-hidden="true")
+                        | 新しい掲示を投稿する
+               .ListLayerContent.post
+            .AppMain.Hide.Topic.ListLayer
+               .ListLayerList.topic
+               .ListLayerPush.topic
+                  a(href="/newtopic").app-link
+                     span.ListLayerListIndex
+                        i.fa.fa-plus-square(aria-hidden="true")
+                        | 新しいトピックを作成する
+               .ListLayerContent.topic
+            .AppMain.Hide.OnlineMeeting.OneLayer
+               .sokai.ContentBox
+                  span.badge.badge-pill.badge-success 全寮生対象
+                  hr
+                  h2 寮生総会
+                  | 3,8,9月を除く毎月第一水曜日の次の土曜日の20:00から(一部例外あり)
+                  hr
+               .inkai.ContentBox
+                  span.badge.badge-pill.badge-primary 委員会メンバー
+                  span.badge.badge-pill.badge-info 希望者
+                  hr
+                  h2 寮生委員会
+                  | 3,8,9月を除く毎月第一水曜日の22:30から(一部例外あり)
+                  hr
+               .room1.ContentBox
+                  h2 会議室1
+                  | 利用したい人は自由に使ってください。<br>ゲストとして参加するか、利用後に参加者リストを表示してグループから退室すれば通知は来なくなります。
+                  hr
+               .room2.ContentBox
+                  h2 会議室2
+                  | 利用したい人は自由に使ってください。<br>ゲストとして参加するか、利用後に参加者リストを表示してグループから退室すれば通知は来なくなります。
+                  hr
+            .AppMain.Hide.COVIDIndexContent.OneLayer
+            .AppMain.Hide.NewPostContent.OneLayer
+               .ContentBoxNoBackGround.alert.alert-primary
+                  h4 掲示の投稿
+                  | 掲示を投稿し、必要に応じて通知できます。
+               .ContentBox
+                  .form-group
+                     label(for="postTitle") 掲示のタイトル <span class="badge badge-primary">必須</span>
+                     input#postTitle.form-control(type="text" name="postTitle" required)
+               .lmnEditor#newPost.ContentBox(style="height:max(calc(100vh - 300px), 300px);")
+                  .lmnEditor-tools#newPost-tools
+                  .lmnEditor-content#newPost-content
+               .ContentBox
+                  h5 通知と確認の対象寮生
+                  hr
+                  | ここでチェックを入れた寮生には登録された方法で通知が送信されます。<br>
+                  | また、掲示を読んだことの確認が必要になります。
+                  hr
+                  form.postNotify
+                     .table-responsive-lg
+                        table.table.table-striped
+                           thead
+                              th.col 学年
+                              th.col 在寮
+                              th.col 帰省/外泊
+                           tbody
+                              tr
+                                 th 1年生
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade1Domitory(type="checkbox", name="PostNotifyTo", value="Grade1Domitory")
+                                       label.form-check-label.inline-block(for="Grade1Domitory") 通知する
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade1Home(type="checkbox", name="PostNotifyTo", value="Grade1Domitory")
+                                       label.form-check-label.inline-block(for="Grade1Home") 通知する
+                              tr
+                                 th 2年生
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade2Domitory(type="checkbox", name="PostNotifyTo", value="Grade2Domitory")
+                                       label.form-check-label.inline-block(for="Grade2Domitory") 通知する
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade2Home(type="checkbox", name="PostNotifyTo", value="Grade2Domitory")
+                                       label.form-check-label.inline-block(for="Grade2Home") 通知する
+                              tr
+                                 th 3年生
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade3Domitory(type="checkbox", name="PostNotifyTo", value="Grade3Domitory")
+                                       label.form-check-label.inline-block(for="Grade3Domitory") 通知する
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade3Home(type="checkbox", name="PostNotifyTo", value="Grade3Domitory")
+                                       label.form-check-label.inline-block(for="Grade3Home") 通知する
+                              tr
+                                 th 4年生
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade4Domitory(type="checkbox", name="PostNotifyTo", value="Grade4Domitory")
+                                       label.form-check-label.inline-block(for="Grade4Domitory") 通知する
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade4Home(type="checkbox", name="PostNotifyTo", value="Grade4Domitory")
+                                       label.form-check-label.inline-block(for="Grade4Home") 通知する
+                              tr
+                                 th 院生等
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade5Domitory(type="checkbox", name="PostNotifyTo", value="Grade5Domitory")
+                                       label.form-check-label.inline-block(for="Grade5Domitory") 通知する
+                                 td
+                                    .form-group.form-check
+                                       input.form-check-input#Grade5Home(type="checkbox", name="PostNotifyTo", value="Grade5Domitory")
+                                       label.form-check-label.inline-block(for="Grade5Home") 通知する
+               .ContentBox
+                  button.btn.btn-primary.submitNewPost(type="button") 掲示を投稿する
+            .AppMain.Hide.editTopicContent.OneLayer
+               .ContentBoxNoBackGround.alert.alert-primary
+                  h4 トピックの編集
+                  | 変更はリアルタイムに保存されます。<br>
+                  | 同時に編集できるのは1人/1端末です。
+                  hr
+                  button#closeTopicEditing.btn.btn-success(type="button") 編集を終了する
+               .ContentBox
+                  .form-group
+                     label(for="topicTitle") トピックのタイトル
+                     input#topicTitle.form-control(type="text", required)
+               .lmnEditor#editTopic.ContentBox(style="height:max(calc(100vh - 300px), 300px);")
+                  .lmnEditor-tools#editTopic-tools
+                  .lmnEditor-content#editTopic-content
+               .editTopicFileList
+               .ContentBox
+                  h5 ファイルをアップロード
+                  | すでに存在するファイルと同じ名前でアップロードすると上書きされます。
+                  hr
+                  .input-group.input-group-sm
+                     .custom-file
+                        input#topicFileUploadInout.custom-file-input(type="file" aria-describedby="topicFileUploadInout")
+                        label#topicFileUploadInoutLabel.custom-file-label(for="topicFileUploadInout", data-browse="参照") ファイルを選択
+                     .input-group-append
+                        button#topicFileUpload.btn.btn-success(type="button")
+                           i.fa.fa-cloud-upload-alt(aria-hidden="true")
+            .AppMain.Hide.MemberContent.OneLayer
+               .ContentBox
+                  h2 1年生
+                  .table-responsive-lg
+                     table.table.table-striped
+                        thead.MemberTable
+                           th.col 名前
+                           th.col 役職
+                           th.col LINEプロフィール名
+                           th.col 階
+                           th.col 通知
+                        tbody.tbodyGrade1.MemberTable
+               .ContentBox
+                  h2 2年生
+                  .table-responsive-lg
+                     table.table.table-striped
+                        thead.MemberTable
+                           th.col 名前
+                           th.col 役職
+                           th.col LINEプロフィール名
+                           th.col 階
+                           th.col 通知
+                        tbody.tbodyGrade2.MemberTable
+               .ContentBox
+                  h2 3年生
+                  .table-responsive-lg
+                     table.table.table-striped
+                        thead.MemberTable
+                           th.col 名前
+                           th.col 役職
+                           th.col LINEプロフィール名
+                           th.col 階
+                           th.col 通知
+                        tbody.tbodyGrade3.MemberTable
+               .ContentBox
+                  h2 4年生
+                  .table-responsive-lg
+                     table.table.table-striped
+                        thead.MemberTable
+                           th.col 名前
+                           th.col 役職
+                           th.col LINEプロフィール名
+                           th.col 階
+                           th.col 通知
+                        tbody.tbodyGrade4.MemberTable
+               .ContentBox
+                  h2 院生等
+                  .table-responsive-lg
+                     table.table.table-striped
+                        thead.MemberTable
+                           th.col 名前
+                           th.col 役職
+                           th.col LINEプロフィール名
+                           th.col 階
+                           th.col 通知
+                        tbody.tbodyGrade5.MemberTable
+               .ContentBox
+                  h2 その他
+                  .table-responsive-lg
+                     table.table.table-striped
+                        thead.MemberTable
+                           th.col 名前
+                           th.col 役職
+                           th.col LINEプロフィール名
+                           th.col 階
+                           th.col 通知
+                        tbody.tbodyGrade6.MemberTable
+               .ContentBox
+                  h2 個別メッセージを送信
+                  | 特定の寮生にメッセージを送ることができます。<br>
+                  | メッセージは通知を設定している寮生に、通知と同じ方法で送ることができます。<br>
+                  i.fab.fa-line(aria-hidden="true")
+                  | ：LINEにメッセージを送ります。メッセージはLINEに残ります。<br>
+                  i.fa.fa-chrome(aria-hidden="true")
+                  | ：Web Push 通知を送ります。メッセージは通知以外に残りません。
+                  hr
+                  .input-group.mb-3
+                     .input-group-prepend
+                        span.input-group-text 送信先
+                     input.form-control#userMatchInput(type="text", placeholder="名前を入力", aria-label="名前を入力", aria-describedby="basic-addon1")
+                  .userMatch
+                  .personalNotifyTo 送信先を1つ以上設定してください
+                  hr
+                  .form-group
+                     label(for="exampleFormControlTextarea1") メッセージ
+                     textarea.form-control#personalNotifyMessage(rows="3")
+                  button.btn.btn-primary.sendPersonalNotify(type="button") メッセージを送信する
+            .AppMain.Hide.ReserveContent.OneLayer
+               .ContentBoxNoBackGround.alert.alert-primary
+                  h4 食事とシャワーの予約
+                  | 安全レベルが3以上になった場合、食堂と浴槽の利用が禁止されます。<br>
+                  | その場合に、食事とシャワーの予約はここから行います。<br>
+                  | 現在は安全レベルが2以下なので、このシステムは利用しません。
+            .AppMain.Hide.EditProfile.OneLayer
+               .ContentBoxNoBackGround.alert.alert-primary
+                  h4 プロフィールの設定
+                  | プロフィールを設定してください
+               .ContentBox
+                  form.SetProfile
+                     .form-group
+                        label(for="name") 名前(本名・スペースなしフルネーム) <span class="badge badge-primary">必須</span>
+                        input#name.form-control(type="text" name="name" required)
+                     .form-group
+                        label(for="grade") 寮での学年(留年等は考慮しない)
+                        select#grade.form-control(name="grade")
+                           option(value="未指定/分からない") 未指定/分からない
+                           option(value="1年生") 1年生
+                           option(value="2年生") 2年生
+                           option(value="3年生") 3年生
+                           option(value="4年生") 4年生
+                           option(value="院生等") 院生等
+                           option(value="その他") 寮生ではない
+                     .form-group
+                        label(for="job") 役職
+                        select#job.form-control(name="job")
+                           option(value="未指定/分からない") 未指定/分からない
+                           option(value="ネットワーク") ネットワーク委員
+                           option(value="ネットワーク(委員長)") ネットワーク委員(委員長)
+                           option(value="会計") 会計委員
+                           option(value="会計(委員長)") 会計委員(委員長)
+                           option(value="文化") 文化委員
+                           option(value="文化(委員長)") 文化委員(委員長)
+                           option(value="懲罰") 懲罰委員
+                           option(value="懲罰(委員長)") 懲罰委員(委員長)
+                           option(value="厚生") 厚生委員
+                           option(value="厚生(委員長)") 厚生委員(委員長)
+                           option(value="議長") 議長
+                           option(value="委員長") 委員長
+                           option(value="副議長") 副議長
+                           option(value="書記") 書記
+                           option(value="なし") なし
+                           option(value="寮長") 寮長
+                           option(value="役職：その他") その他
+                     .form-group
+                        label(for="floor") 寮の部屋の階
+                        select#floor.form-control(name="floor")
+                           option(value="未指定/分からない") 未指定/分からない
+                           option(value="2階") 2階
+                           option(value="3階") 3階
+                           option(value="4階") 4階
+                           option(value="その他") その他
+                     .form-group
+                        label(for="linename") LINEのプロフィール名 <span class="badge badge-primary">必須</span>
+                        input#linename.form-control(type="text" name="linename" required)
+                     .alert.alert-success(role="alert") LINEのプロフィール名は、寮生LINEでどれが誰のアカウントかをわかるようにするために入力してもらいます。寮生LINEに入っていない場合は「なし」でもかまいません。
+                     button(type="submit").btn.btn-primary プロフィールを設定する
+            .AppMain.Hide.Notify.OneLayer
+               .ContentBoxNoBackGround.alert.alert-primary
+                  h4 通知の設定をしてください
+                  | 掲示にすぐに気づくことができるように、少なくとも1つの通知を設定してください。
+               .ContentBox
+                  h4 LINEで通知を受け取る
+                  | LINEで通知を受け取ることができます。<br>
+                  | ボタンをクリックするか、QRコードを読み取って、「東京寮公式LINE」を友だち登録した後、フルネームをメッセージして下さい。
+                  hr
+                  a(href="https://lin.ee/0BRHJFG")
+                     img(src="https://scdn.line-apps.com/n/line_add_friends/btn/ja.png", alt="友だち追加", height="36", border="0")
+                  hr
+                  img(src="https://qr-official.line.me/sid/M/322raitr.png", width="100px")
+                  hr
+                  .lineVailed
+               .ContentBox
+                  h4 Web Push 通知を受け取る
+                  | ChromeとEdgeではWeb Push通知を受け取ることができます。<br>
+                  | このディバイスで通知を受け取るには、「通知を許可」を押してください。
+                  hr
+                  .webpushVailed
+                     div.alert.alert-warning(role="alert")
+                        i.fa.fa-exclamation(aria-hidden="true")
+                        | この端末で通知を受け取るには通知を許可してください。
+               .ContentBoxNoBackGround.alert.alert-warning
+                  h4 通知に関するエラーが発生する場合
+                  | Web Push を利用中の場合、LINEの方が安定しているので問題があればLINEで通知を受け取ってください。<br>
+                  | LINEで通知を設定しているのに届かない場合は赤沢まで赤沢まで連絡してください。
+            .AppMain.Login.OneLayer.Hide
+               .ContentBox
+                  form.LoginForm
+                     .form-group
+                        label(for="email") メールアドレス
+                        input#email.form-control(type="text" name="email")
+                     .form-group
+                        label(for="password") パスワード
+                        input#password.form-control(type="password" name="password")
+                     button.btn.btn-primary(type="submit") ログイン
+            .AppMain.Error.OneLayer.Hide
+         aside.AppAside
+            a(href="/").app-link
+               .AppAsideNav.post 
+                  .NavIcon 
+                     i.fa.fa-bell(aria-hidden="true")
+                  .NavTitle 掲示
+            a(href="/topic").app-link
+               .AppAsideNav.topic
+                  .NavIcon 
+                     i.fa.fa-file-alt(aria-hidden="true")
+                  .NavTitle トピック
+            a(href="/onlinemeeting").app-link
+               .AppAsideNav.meeting
+                  .NavIcon 
+                     i.fa.fa-skype(aria-hidden="true")
+                  .NavTitle 会議
+            a(href="/member").app-link
+               .AppAsideNav.member
+                  .NavIcon 
+                     i.fa.fa-list-ul(aria-hidden="true")
+                  .NavTitle メンバー
+            a(href="/reserve").app-link
+               .AppAsideNav.reserve
+                  .NavIcon 
+                     i.fa.fa-utensils(aria-hidden="true")
+                  .NavTitle 予約
+         header.AppHeader
+            .HeaderTitle
+               span.AppLogo
+                  img(src="/logo.svg", width="24px", height="24px")
+               span.AppName 東京寮WebApp ver2.0.0
+            .HeaderAppInfo(style="z-index: 10001;")
+               .btn-group
+                  button.btn.btn-sm.dropdown-toggle(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+                     img(src="/logo.svg", width="24px", height="24px")
+                  .dropdown-menu
+                     a.dropdown-item(href="#") 東京寮ウェブアプリ ver2.0.0
+                     a.dropdown-item(href="#") &copy; Daisuke AKAZAWA
+                     a.dropdown-item(href="#") under MIT Licence
+                     .dropdown-divider
+                     a.dropdown-item(href="https://docs.google.com/forms/d/e/1FAIpQLSfK8Hv9x7CzTJndZg5PzhjH4wME5kHLKV6HIh-SxND5nvUQPw/viewform" target="_blank") バグ報告・フィードバック
+                        a.dropdown-item(href="https://github.com/TokyoRyo/webapp" target="_blank") Github Repository
+            .HeaderInfo
+               span.HeaderUserInfo
+               span.HeaderSafetyLevel
+         .AppFooter
+            .AppFooterLeft 東京寮ウェブアプリ ver2.0.0  works with
+               i.fa.fa-chrome(aria-hidden="true")
+               i.fa.fa-safari(aria-hidden="true")
+               i.fa.fa-edge(aria-hidden="true")
+               i.fa.fa-firefox(aria-hidden="true")
+            .AppFooterCenter
+               a(href="https://docs.google.com/forms/d/e/1FAIpQLSfK8Hv9x7CzTJndZg5PzhjH4wME5kHLKV6HIh-SxND5nvUQPw/viewform", target="_blank")
+                  i.fa.fa-bug(aria-hidden="true")
+                  | バグ報告・フィードバック
+               a(href="https://github.com/TokyoRyo/webapp", target="_blank")
+                  i.fa.fa-github(aria-hidden="true")
+                  | GitHub Repository
+            .AppFooterRight &copy; Daisuke AKAZAWA  (under MIT Licence)
+      .LoadingBar
+      .DisConnect.Hide.Unload
+         .alert.alert-warning(role="alert")
+            p 再接続しています...

@@ -1,0 +1,487 @@
+/*
+coding: utf-8
+(C) Copy Right Daisuke AKAZAWA
+Lisence: MIT
+More info: https://github.com/TokyoRyo/webapp
+*/
+:root{
+   --vh: 1vh;
+   --theme: rgb(0, 45, 87);
+   --theme-pale: rgb(135, 192, 245);
+}
+@keyframes loading {
+   0% {
+   width: 0;
+   transform: translateX(0);
+   background-color: var(--lmn-red);
+   }
+   50% {
+   width: 40vw;
+   transform: translateX(30vw);
+   background-color: var(--lmn-yellow);
+   }
+   100% {
+   width: 0;
+   transform: translateX(100vw);
+   background-color: var(--lmn-green);
+   }
+}
+@keyframes unreadNotify {
+   0% {
+      transform: rotate(20deg);
+      color: var(--lmn-white);
+   }
+   30% {
+      transform: rotate(-20deg);
+   }
+   45% {
+      transform: rotate(20deg);
+      color: var(--lmn-yellow);
+   }
+   55% {
+      transform: rotate(-20deg);
+      color: var(--lmn-yellow);
+   }
+   60% {
+      transform: rotate(20deg);
+   }
+   70% {
+      transform: rotate(-20deg);
+   }
+   100% {
+      transform: rotate(20deg);
+      color: var(--lmn-white);
+   }
+}
+@keyframes aura {
+   0% {
+      border: solid 6px white;
+   }
+   60% {
+      border: solid 6px var(--lmn-red);
+   }
+   80% {
+      border: solid 6px var(--lmn-red);
+   }
+   100% {
+      border: solid 6px white;
+   }
+}
+html, body{
+   margin: 0;
+   font-family: 'Lato', 'Noto Sans JP', 'ヒラギノ角ゴ ProN', 'Hiragino Kaku Gothic ProN', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+div{
+   box-sizing: border-box;
+}
+@media (min-width: 900px){
+   .AppFrame{
+      background-color: var(--lmn-white);
+      width: 100vw; height: var(--vh);
+      position: relative;
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      grid-template-rows: max-content 50px 1fr 25px;
+   }
+   .UnSupport{
+      grid-column: 1/3;
+      grid-row: 1/2;
+   }
+   .AppContent{
+      grid-column: 2/3;
+      grid-row: 3/4;
+      overflow: auto;
+   }
+   .AppAside{
+      display: none;
+   }
+   .AppAside.Authentication{
+      display: grid;
+      background-color: var(--theme);
+      grid-column: 1/2;
+      grid-row: 3/4;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(5, max-content);
+   }
+   .AppAsideNav{
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 50px 30px;
+      border-bottom: solid 1px rgba(255,255,255,0.1);
+   }
+   .NavIcon{
+      font-size: 30px;
+      line-height: 50px;
+      text-align: center;
+   }
+   .NavTitle{
+      font-size: 15px;
+      text-align: center;
+   }
+   .AppHeader{
+      background-color: var(--lmn-white);
+      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.24);
+      grid-column: 1/3;
+      grid-row: 2/3;
+      display: grid;
+      padding: 10px;
+      grid-template-columns: max-content 1fr;
+      white-space: nowrap;
+      z-index: 9999;
+   }
+   .HeaderTitle{
+      grid-column: 1/2;
+      grid-row: 1/2;
+   }
+   .HeaderInfo{
+      grid-column: 2/3;
+      grid-row: 1/2;
+   }
+   .HeaderAppInfo{
+      display: none;
+   }
+   .AppFooter{
+      grid-column: 1/3;
+      grid-row: 4/5;
+      white-space: nowrap;
+      overflow-x: auto;
+      padding: 6px;
+      font-size: 13px;
+      line-height: 13px;
+      background-color: var(--lmn-black);
+      color: var(--lmn-white);
+      display: grid;
+      grid-template-columns: max-content 1fr max-content;
+      grid-template-rows: 1fr;
+   }
+   .AppFooterCenter > a{
+      color: var(--lmn-white);
+      text-decoration: underline;
+      margin: 0 10px 0 10px;
+   }
+   .AppFooterLeft{
+      grid-column: 1/2;
+      grid-row: 1/2;
+      text-align: left;
+   }
+   .AppFooterCenter{
+      grid-column: 2/3;
+      grid-row: 1/2;
+      text-align: center;
+   }
+   .AppFooterRight{
+      grid-column: 3/4;
+      grid-row: 1/2;
+      text-align: right;
+   }
+   .ListLayer{
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 1fr max-content;
+   }
+   .ListLayerList{
+      background-color: white;
+      grid-column: 1/2;
+      grid-row: 1/2;
+      color: var(--theme);
+      overflow-y: auto;
+   }
+   .ListLayerPush{
+      grid-column: 1/2;
+      grid-row: 2/3;
+   }
+   .ListLayerContent{
+      grid-column: 2/3;
+      grid-row: 1/3;
+      background-color: var(--lmn-pale-gray);
+      padding: 10px;
+   }
+}
+@media (max-width: 899px){
+   .AppFrame{
+      background-color: var(--lmn-white);
+      width: 100vw; height: var(--vh);
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: max-content 50px 1fr 50px;
+   }
+   .UnSupport{
+      grid-column: 1/2;
+      grid-row: 1/2;
+   }
+   .AppContent{
+      grid-column: 1/2;
+      grid-row: 3/4;
+      overflow: auto;
+   }
+   .HeaderAppInfo{
+      grid-column: 1/2;
+      grid-row: 1/2;
+   }
+   .HeaderInfo{
+      grid-column: 2/3;
+      grid-row: 1/2;
+   }
+   .AppAside{
+      display: none;
+   }
+   .AppAside.Authentication{
+      display: grid;
+      background-color: var(--theme);
+      grid-column: 1/2;
+      grid-row: 4/5;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: 1fr;
+   }
+   .AppAsideNav{
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 30px 15px;
+      border-right: solid 1px rgba(255,255,255,0.1);
+   }
+   .NavIcon{
+      font-size: 20px;
+      line-height: 30px;
+      text-align: center;
+   }
+   .NavTitle{
+      font-size: 10px;
+      line-height: 10px;
+      text-align: center;
+   }
+   .AppHeader{
+      background-color: var(--lmn-white);
+      box-shadow: 0 1px 1px 1px rgba(0, 0, 0, 0.24);
+      grid-column: 1/2;
+      grid-row: 2/3;
+      display: grid;
+      padding: 10px 0 10px 0;
+      grid-template-columns: max-content 1fr;
+      white-space: nowrap;
+      z-index: 9999;
+   }
+   .HeaderTitle{
+      display: none;
+   }
+   .AppName, .AppLogo, .AppFooter{
+      display: none;
+   }
+   .ListLayer{
+      width: 100%; height: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr max-content;
+   }
+   .ListLayerList{
+      background-color: white;
+      grid-column: 1/2;
+      grid-row: 1/2;
+      color: var(--theme);
+      overflow-y: auto;
+   }
+   .ListLayerPush{
+      grid-column: 1/2;
+      grid-row: 2/3;
+   }
+   .ListLayerContent{
+      grid-column: 1/2;
+      grid-row: 1/3;
+      background-color: var(--lmn-pale-gray);
+      padding: 10px;
+   }
+   .post.Hide, .topic.Hide{
+      display: none;
+   }
+}
+.OneLayer{
+   background-color: var(--lmn-white);
+   padding: 10px;
+}
+.AppAsideNav{
+   color: var(--white);
+   text-decoration: none;
+   margin: 0;
+   padding: 2px;
+   position: relative;
+}
+.AppAsideNav.unread::after{
+   content: '';
+   display: block;
+   width: 15px; height: 15px;
+   border-radius: 0.5em;
+   background-color: var(--lmn-red);
+   margin-left: 10px;
+   position: absolute;
+   top: 10px;
+   left: 10px;
+}
+.AppAsideNav.unread > .NavIcon > i{
+   animation: unreadNotify 2s linear 0s infinite normal none running;
+}
+.AppAsideNav:hover{
+   background-color: rgb(66, 102, 136);
+   border-radius: 10px;
+}
+.AppAsideNav.active{
+   background-color: rgb(66, 102, 136);
+   border-radius: 10px;
+}
+.AppMain.Hide{
+   display: none;
+}
+.HeaderTitle{
+   margin: 0 0px 0 20px;
+   padding: 3px;
+   color: var(--lmn-black);
+   font-size: 18px;
+   font-weight: bold;
+   text-align: left;
+   overflow: hidden;
+   white-space: nowrap;
+}
+.HeaderInfo{
+   margin: 0 20px 0 20px;
+   color: var(--lmn-theme);
+   font-size: 18px;
+   text-align: right;
+}
+.HeaderUserInfo{
+   margin: 0 20px 0 20px;
+   padding: 3px;
+   color: var(--lmn-white);
+   font-size: 18px;
+}
+.LoadingBar{
+   display: block;
+   position: absolute; top: 0; left: 0;
+   width: 300px; height: 5px;
+   animation: loading 1s linear 0s infinite normal none running;
+   z-index: 10000;
+}
+.LoadingBar.Authentication.UsersInfo.COVIDIndex.Posts.Topic.Connected, .LoadingBar.loaded{
+   display: none;
+}
+.ContentBox{
+   max-width: 1000px;
+   margin: 0 auto;
+   margin-top: 30px;
+   padding: 20px 10px 10px 20px;
+   background-color: white;
+   border: solid 1px var(--lmn-gray);
+   border-radius: 3px;
+}
+.ContentBoxNoBackGround{
+   max-width: 1000px;
+   margin: 0 auto;
+   margin-top: 30px;
+   padding: 20px 10px 10px 20px;
+   border: solid 1px var(--lmn-gray);
+   border-radius: 3px;
+}
+.ReadButton{
+   animation: aura 2s linear 0s infinite normal none running;
+}
+.fa, .fab{
+   margin: 0 0.2em 0 0.2em;
+}
+.ListLayerList{
+   border-bottom: solid 1px var(--lmn-gray);
+}
+.ListLayerListIndex{
+   padding: 10px;
+   display: block;
+   width: 100%;
+   color: var(--theme);
+   background-color: white;
+}
+.ListLayerListIndex:hover{
+   background-color: var(--lmn-pale-gray);
+}
+.ListLayerListIndex.unread{
+   font-weight: bold;
+   border-left: solid 8px var(--lmn-red);
+}
+.ListLayerListIndex.unread::after{
+   content: '';
+   display: inline-block;
+   width: 1em; height: 1em;
+   border-radius: 0.5em;
+   background-color: var(--lmn-red);
+   margin-left: 10px;
+}
+.ListLayerListIndex.show{
+   background-color: var(--lmn-blue-pale);
+   color: var(--lmn-black);
+   font-weight: bold;
+}
+.ListLayerContent{
+   overflow: auto;
+}
+.inline-block{
+   display: inline-block;
+   margin-right: 10px;
+   white-space: nowrap;
+}
+.MemberTable > th, .MemberTable > td{
+   white-space: nowrap;
+}
+.DisConnect{
+   display: block;
+   width: 100%;
+   position: absolute; top: 60px; left: 0;
+   z-index: 10004;
+}
+.DisConnect > .alert{
+   margin: 0 auto;
+   text-align: center;
+   width: 200px; height: 50px;
+}
+.DisConnect.Hide, .DisConnect.Unload{
+   display: none;
+}
+
+
+
+.lemono-marking__important{
+   color: var(--lmn-important);
+   font-weight: 800;
+}
+.lemono-marking__note{
+   color: var(--lmn-note);
+   font-weight: 600;
+}
+.lemono-marking__red{
+   border: solid 2px var(--lmn-red);
+   background-color: var(--lmn-red-pale);
+}
+.lemono-marking__green{
+   border: solid 2px var(--lmn-green);
+   background-color: var(--lmn-green-pale);
+}
+.lemono-marking__blue{
+   border: solid 2px var(--lmn-blue);
+   background-color: var(--lmn-blue-pale);
+}
+.lemono-marking__purple{
+   border: solid 2px var(--lmn-purple);
+   background-color: var(--lmn-purple-pale);
+}
+.lemono-marking__yellow{
+   border: solid 2px var(--lmn-yellow);
+   background-color: var(--lmn-yellow-pale);
+}
+.lemono-marking__normal{
+   border: none;
+   background-color: white;
+   color: var(--lmn-black);
+}
+.lemono-marking__large{
+   border: none;
+   background-color: white;
+   color: var(--lmn-black);
+   font-size: 2rem;
+   line-height: 3rem;
+}

@@ -1,5 +1,5 @@
-importScripts('https://www.gstatic.com/firebasejs/7.9.3/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/7.9.3/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js');
 
 firebase.initializeApp({
    apiKey: "AIzaSyAFwYCHTlYgN_feZFKsFnR5U6hWCnfbvaY",
@@ -13,22 +13,15 @@ firebase.initializeApp({
 });
 const messaging = firebase.messaging();
 messaging.setBackgroundMessageHandler(function(payload) {
-const notificationTitle = '東京寮WEBアプリ';
-const notificationOptions = {
+   const notificationTitle = '東京寮WEBアプリ';
+   const notificationOptions = {
    body: payload.data.content,
    icon: '/icons/icon-192x192.png'
    };
-
    return self.registration.showNotification(notificationTitle, notificationOptions);
 });
-
-self.addEventListener('install', function(event) {
-   console.log('Service Worker installing.');
-});
-
-self.addEventListener('activate', function(event) {
-   console.log('Service Worker activating.');  
-});
+self.addEventListener('install', function(event) {});
+self.addEventListener('activate', function(event) {});
 self.addEventListener('notificationclick', event => {
    event.notification.close();
    event.waitUntil(self.clients.openWindow('https://tokyoryo-20a72.web.app/'));

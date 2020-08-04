@@ -1,0 +1,57 @@
+:root{
+   --lmnEditor-toolsBackground: #fafafa;
+   --lmnEditor-contentBackground: #ffffff;
+   --lmnEditor-processBar: #eeeeee;
+   --lmnEditor-buttonBackground: #ffffff;
+   --lmnEditor-buttonBorder: #333333;
+   --lmnEditor-accent: rgb(0, 45, 87);
+}
+div.lmnEditor{
+   padding: 0;
+   display: grid;
+   grid-template-columns: 1fr;
+   grid-template-rows: max-content 1fr;
+}
+.lmnEditor-tools{
+   background-color: var(--lmnEditor-toolsBackground);
+   grid-column: 1/2; grid-row: 1/2;
+   border-bottom: solid 5px var(--lmnEditor-processBar);
+   white-space: nowrap;
+   overflow-x: auto;
+   padding: 8px 10px 8px 10px;
+}
+.lmnEditor-content{
+   background-color: var(--lmnEditor-contentBackground);
+   margin: 0; padding: 4px 5px 4px 5px;
+   outline: none;
+   overflow: auto;
+   grid-column: 1/2; grid-row: 2/3;
+   caret-color: #333333;
+}
+
+.lmnEditor.toolButtonSet{
+   display: inline-block; box-sizing: border-box;
+   background-color: var(--lmnEditor-buttonBackground);
+   margin: 2px 5px 2px 5px;
+   padding: 0 0 0 5px;
+   border-radius: 3px;
+   border: solid 1px var(--lmnEditor-buttonBorder);
+}
+.lmnEditor.toolButtonSetName{
+   color: var(--lmnEditor-accent);
+   font-weight: bold;
+   padding: 0 5px 0 0;
+}
+.lmnEditor.toolButton{
+   min-width: 50px; height: 40px;
+   background-color: transparent;
+   border-radius: 0;
+   border-top: none;
+   border-bottom: none;
+   border-left: solid 1px var(--lmnEditor-buttonBorder);
+   border-right: none;
+}
+.lmnEditor.toolButton > span{
+   font-size: 15px !important;
+   margin: 0 !important;
+}
