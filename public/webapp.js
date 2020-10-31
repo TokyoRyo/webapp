@@ -306,6 +306,42 @@ $(() => {
          window.history.pushState('', '', window.location.pathname.substring(5));
          RenderPage();
       });
+      $(document).on('click', '.reserveButton', function () {
+         var reserveid = $(this).attr('name');
+         if(reserveid.substring(0,9) == 'breakfast'){
+            var reserveList = {};
+            reserveList[reserveid.substring(9)] = MyUID;
+            firebase.database().ref('reserve/breakfast/data').update(reserveList);
+         };
+         if(reserveid.substring(0,6) == 'dinner'){
+            var reserveList = {};
+            reserveList[reserveid.substring(6)] = MyUID;
+            firebase.database().ref('reserve/dinner/data').update(reserveList);
+         };
+         if(reserveid.substring(0,6) == 'shower'){
+            var reserveList = {};
+            reserveList[reserveid.substring(6)] = MyUID;
+            firebase.database().ref('reserve/shower/data').update(reserveList);
+         };
+      });
+      $(document).on('click', '.reserveCancelButton', function () {
+         var reserveid = $(this).attr('name');
+         if(reserveid.substring(0,9) == 'breakfast'){
+            var reserveList = {};
+            reserveList[reserveid.substring(9)] = null;
+            firebase.database().ref('reserve/breakfast/data').update(reserveList);
+         };
+         if(reserveid.substring(0,6) == 'dinner'){
+            var reserveList = {};
+            reserveList[reserveid.substring(6)] = null;
+            firebase.database().ref('reserve/dinner/data').update(reserveList);
+         };
+         if(reserveid.substring(0,6) == 'shower'){
+            var reserveList = {};
+            reserveList[reserveid.substring(6)] = null;
+            firebase.database().ref('reserve/shower/data').update(reserveList);
+         };
+      });
    };
    var RenderPage = () => {
       $('.LoadingBar').removeClass('loaded');
@@ -475,6 +511,11 @@ $(() => {
          $('.LoadingBar').removeClass('Topic');
          UpdateTopic(snapshot.val());
       });
+      var Reserve = firebase.database().ref('reserve');
+      Reserve.on('value', (snapshot) => {
+         $('.LoadingBar').removeClass('Reserve');
+         UpdateReserve(snapshot.val());
+      });
       var OnlineMeeting = firebase.database().ref('onlinemeeting');
       OnlineMeeting.once('value', (snapshot) => {
          var Room = Object.keys(snapshot.val());
@@ -483,6 +524,115 @@ $(() => {
             $('.' + Room[i]).append('<a href="' + snapshot.val()[Room[i]] + '" target="_blank"><button type="button" class="btn btn-outline-primary"><i class="fa fa-skype" aria-hidden="true"></i>Skypeを開く<i class="fa fa-external-link-alt" aria-hidden="true"></i></button></a>');
          };
       });
+   };
+   var UpdateReserve = (reserveData) => {
+      var i,j
+      var isBreakfastReserved = false;
+      for (i = 1; i < 10; i++){
+         if(reserveData["breakfast"]["data"]){
+            for (j = 1; j < 6; j++){
+               if(reserveData["breakfast"]["data"][i + "-" + j]){
+                  if(reserveData["breakfast"]["data"][i + "-" + j] === MyUID){
+                     isBreakfastReserved = true;
+                     $(".breakfast" + i + "-" + j).html('<b><span class="uidToname ' + reserveData["breakfast"]["data"][i + "-" + j] + '"></span></b> <button type="button" class="btn btn-sm btn-danger reserveCancelButton" name="breakfast' + i + '-' + j + '">取消</button>');
+                  }else{
+                     $(".breakfast" + i + "-" + j).html('<span class="uidToname ' + reserveData["breakfast"]["data"][i + "-" + j] + '"></span>');
+                  };
+               }else{
+                  $(".breakfast" + i + "-" + j).html("");
+               };
+            };
+         }else{
+            for (j = 1; j < 6; j++){
+               $(".breakfast" + i + "-" + j).html("");
+            };
+         };
+      };
+      if(isBreakfastReserved){
+         $(".breakfastDate").html('(' + reserveData["breakfast"]["date"] + ')<span class="badge badge-success">予約済み</span>');
+      }else{
+         for (i = 1; i < 10; i++){
+            for (j = 1; j < 6; j++){
+               if($(".breakfast" + i + "-" + j).html() == ""){
+                  $(".breakfast" + i + "-" + j).html("<button type='button' class='btn btn-sm btn-outline-success reserveButton' name='breakfast" + i + "-" + j + "'>予約する</button>");
+               };
+            };
+         };
+         $(".breakfastDate").html('(' + reserveData["breakfast"]["date"] + ')');
+      };
+      var isDinnerReserved = false;
+      for (i = 1; i < 10; i++){
+         if(reserveData["dinner"]["data"]){
+            for (j = 1; j < 6; j++){
+               if(reserveData["dinner"]["data"][i + "-" + j]){
+                  if(reserveData["dinner"]["data"][i + "-" + j] === MyUID){
+                     isDinnerReserved = true;
+                     $(".dinner" + i + "-" + j).html('<b><span class="uidToname ' + reserveData["dinner"]["data"][i + "-" + j] + '"></span></b> <button type="button" class="btn btn-sm btn-danger reserveCancelButton" name="dinner' + i + '-' + j + '">取消</button>');
+                  }else{
+                     $(".dinner" + i + "-" + j).html('<span class="uidToname ' + reserveData["dinner"]["data"][i + "-" + j] + '"></span>');
+                  };
+               }else{
+                  $(".dinner" + i + "-" + j).html("");
+               };
+            };
+         }else{
+            for (j = 1; j < 6; j++){
+               $(".dinner" + i + "-" + j).html("");
+            };
+         };
+      };
+      if(isDinnerReserved){
+         $(".dinnerDate").html('(' + reserveData["dinner"]["date"] + ')<span class="badge badge-success">予約済み</span>');
+      }else{
+         for (i = 1; i < 10; i++){
+            for (j = 1; j < 6; j++){
+               if($(".dinner" + i + "-" + j).html() == ""){
+                  $(".dinner" + i + "-" + j).html("<button type='button' class='btn btn-sm btn-outline-success reserveButton' name='dinner" + i + "-" + j + "'>予約する</button>");
+               };
+            };
+         };
+         $(".dinnerDate").html('(' + reserveData["dinner"]["date"] + ')');
+      };
+      var isShowerReserved = false;
+      for (i = 1; i < 35; i++){
+         if(reserveData["shower"]["data"]){
+            for (j = 1; j < 4; j++){
+               if(reserveData["shower"]["data"][i + "-" + j]){
+                  if(reserveData["shower"]["data"][i + "-" + j] === MyUID){
+                     isShowerReserved = true;
+                     $(".shower" + i + "-" + j).html('<b><span class="uidToname ' + reserveData["shower"]["data"][i + "-" + j] + '"></span></b> <button type="button" class="btn btn-sm btn-danger reserveCancelButton" name="shower' + i + '-' + j + '">取消</button>');
+                  }else{
+                     $(".shower" + i + "-" + j).html('<span class="uidToname ' + reserveData["shower"]["data"][i + "-" + j] + '"></span>');
+                  };
+               }else{
+                  if($(".shower" + i + "-" + j).html() != "×"){
+                     $(".shower" + i + "-" + j).html("");
+                  }
+               };
+            };
+         }else{
+            for (j = 1; j < 4; j++){
+               if($(".shower" + i + "-" + j).html() != "×"){
+                  $(".shower" + i + "-" + j).html("");
+               }
+            };
+         };
+      };
+      if(isShowerReserved){
+         $(".showerDate").html('(' + reserveData["shower"]["date"] + ')<span class="badge badge-success">予約済み</span>');
+      }else{
+         for (i = 1; i < 35; i++){
+            for (j = 1; j < 4; j++){
+               if($(".shower" + i + "-" + j).html() == ""){
+                  $(".shower" + i + "-" + j).html("<button type='shower' class='btn btn-sm btn-outline-success reserveButton' name='shower" + i + "-" + j + "'>予約する</button>");
+               };
+            };
+         };
+         $(".showerDate").html('(' + reserveData["shower"]["date"] + ')');
+      };
+      if(MemberInfo != ''){
+         RenderMemberInfo();
+      };
    };
    var UpdateUsersInfo = (UsersInfo) => {
       MemberInfo = UsersInfo;
