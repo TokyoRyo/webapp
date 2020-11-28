@@ -11,7 +11,7 @@ html
       link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.14.0/css/v4-shims.css")
       script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
       script(src="/bowser.min.js")
-      script(src="/BrowtherCheck.js?ver2.0.1")
+      script(src="/BrowtherCheck.js?ver2.0.4")
       script(src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js", integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo", crossorigin="anonymous")
       script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js", integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI", crossorigin="anonymous")
       script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js")
@@ -21,11 +21,11 @@ html
       script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-storage.js")
       script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js")
       script(src="https://www.gstatic.com/firebasejs/7.16.1/firebase-messaging.js")
-      script(src="/webapp.js?ver2.0.1")
-      link(href="/webapp.css?ver2.0.1", rel="stylesheet")
-      link(href="/lmn.css?ver2.0.1", rel="stylesheet")
+      script(src="/webapp.js?ver2.0.4")
+      link(href="/webapp.css?ver2.0.4", rel="stylesheet")
+      link(href="/lmn.css?ver2.0.4", rel="stylesheet")
       link(href="/lmnEditor.css?ver114b=aa", rel="stylesheet")
-      script(src="/lmnEditor.js?ver2.0.1")
+      script(src="/lmnEditor.js?ver2.0.4")
       meta(name="apple-mobile-web-app-capable", content="yes")
       meta(name="apple-mobile-web-app-status-bar-style", content="black")
       meta(name="apple-mobile-web-app-title", content="東京寮WebApp")
@@ -170,7 +170,7 @@ html
                .editTopicFileList
                .ContentBox
                   h5 ファイルをアップロード
-                  | すでに存在するファイルと同じ名前でアップロードすると上書きされます。
+                  | すでに存在するファイルと同じ名前でアップロードすると上書きされます(のでしないでください)。
                   hr
                   .input-group.input-group-sm
                      .custom-file
@@ -273,16 +273,14 @@ html
                   | その場合に、食事とシャワーの予約はここから行います。<br>
                   hr
                   h5 食事
-                  | 食事は15分前までに予約をしてください。<br>
-                  | 調理員さんがこの予約表をもとに食事を用意します。<br>
-                  | 予約した時間に食堂に取りに行き、部屋で食べてください。<br>
-                  | 食事後は各階で食器をまとめて、各階で最後に食事を取りにいった人が9時(21時)までに食器を返却してください。<br>
+                  | 直前に予約をしてもかまいません。<br>
+                  | 予約した時間に2Fロビーに取りに行き、部屋で食べてください。<br>
                   | 例えば朝食を7:33分に取りに行く場合は「7:30-7:44」の「03/18/33/48分」です。
                   hr
                   h5 シャワー
                   | シャワーは寮生がいつも使っているシャワー室を同時に2人まで(23時以降は1人まで)、寮長用のシャワー室を同時に1人まで利用できます。
                .ContentBox
-                  h4 朝食の予約<span class="breakfastDate"></span>
+                  h4 昼食の予約<span class="breakfastDate"></span>
                   .table-responsive-lg
                      table.table.table-striped
                         thead
@@ -294,63 +292,63 @@ html
                               th(scope="col") 09/24/39/54分
                               th(scope="col") 12/27/42/57分
                            tr
-                              th(scope="col") 6:30-6:44
+                              th(scope="col") 11:30-11:44
                               td.breakfast1-1
                               td.breakfast1-2
                               td.breakfast1-3
                               td.breakfast1-4
                               td.breakfast1-5
                            tr
-                              th(scope="col") 6:45-6:59
+                              th(scope="col") 11:45-11:59
                               td.breakfast2-1
                               td.breakfast2-2
                               td.breakfast2-3
                               td.breakfast2-4
                               td.breakfast2-5
                            tr
-                              th(scope="col") 7:00-7:14
+                              th(scope="col") 12:00-12:14
                               td.breakfast3-1
                               td.breakfast3-2
                               td.breakfast3-3
                               td.breakfast3-4
                               td.breakfast3-5
                            tr
-                              th(scope="col") 7:15-7:29
+                              th(scope="col") 12:15-12:29
                               td.breakfast4-1
                               td.breakfast4-2
                               td.breakfast4-3
                               td.breakfast4-4
                               td.breakfast4-5
                            tr
-                              th(scope="col") 7:30-7:44
+                              th(scope="col") 12:30-12:44
                               td.breakfast5-1
                               td.breakfast5-2
                               td.breakfast5-3
                               td.breakfast5-4
                               td.breakfast5-5
                            tr
-                              th(scope="col") 7:45-7:59
+                              th(scope="col") 12:45-12:59
                               td.breakfast6-1
                               td.breakfast6-2
                               td.breakfast6-3
                               td.breakfast6-4
                               td.breakfast6-5
                            tr
-                              th(scope="col") 8:00-8:14
+                              th(scope="col") 13:00-13:14
                               td.breakfast7-1
                               td.breakfast7-2
                               td.breakfast7-3
                               td.breakfast7-4
                               td.breakfast7-5
                            tr
-                              th(scope="col") 8:15-8:29
+                              th(scope="col") 13:15-13:29
                               td.breakfast8-1
                               td.breakfast8-2
                               td.breakfast8-3
                               td.breakfast8-4
                               td.breakfast8-5
                            tr
-                              th(scope="col") 8:30-8:44
+                              th(scope="col") 13:30-13:44
                               td.breakfast9-1
                               td.breakfast9-2
                               td.breakfast9-3
@@ -444,22 +442,22 @@ html
                            tr
                               th(scope="col") 18:30-18:44
                               td.shower1-1
-                              td.shower1-2
+                              td.shower1-2 ×
                               td.shower1-3
                            tr
                               th(scope="col") 18:45-18:59
                               td.shower2-1
-                              td.shower2-2
+                              td.shower2-2 ×
                               td.shower2-3
                            tr
                               th(scope="col") 19:00-19:14
                               td.shower3-1
-                              td.shower3-2
+                              td.shower3-2 ×
                               td.shower3-3
                            tr
                               th(scope="col") 19:15-19:29
                               td.shower4-1
-                              td.shower4-2
+                              td.shower4-2 ×
                               td.shower4-3
                            tr
                               th(scope="col") 19:30-19:44
@@ -611,6 +609,66 @@ html
                               td.shower34-1
                               td.shower34-2 ×
                               td.shower34-3
+                           tr
+                              th(scope="col") 6:00-6:14
+                              td.shower35-1
+                              td.shower35-2 ×
+                              td.shower35-3 ×
+                           tr
+                              th(scope="col") 6:15-6:29
+                              td.shower36-1
+                              td.shower36-2 ×
+                              td.shower36-3 ×
+                           tr
+                              th(scope="col") 6:30-6:44
+                              td.shower37-1
+                              td.shower37-2 ×
+                              td.shower37-3 ×
+                           tr
+                              th(scope="col") 6:45-6:59
+                              td.shower38-1
+                              td.shower38-2 ×
+                              td.shower38-3 ×
+                           tr
+                              th(scope="col") 7:00-7:14
+                              td.shower39-1
+                              td.shower39-2 ×
+                              td.shower39-3 ×
+                           tr
+                              th(scope="col") 7:15-7:29
+                              td.shower40-1
+                              td.shower40-2 ×
+                              td.shower40-3 ×
+                           tr
+                              th(scope="col") 7:30-7:44
+                              td.shower41-1
+                              td.shower41-2 ×
+                              td.shower41-3 ×
+                           tr
+                              th(scope="col") 7:45-7:59
+                              td.shower42-1
+                              td.shower42-2 ×
+                              td.shower42-3 ×
+                           tr
+                              th(scope="col") 8:00-8:14
+                              td.shower43-1
+                              td.shower43-2 ×
+                              td.shower43-3 ×
+                           tr
+                              th(scope="col") 8:15-8:29
+                              td.shower44-1
+                              td.shower44-2 ×
+                              td.shower44-3 ×
+                           tr
+                              th(scope="col") 8:30-8:44
+                              td.shower45-1
+                              td.shower45-2 ×
+                              td.shower45-3 ×
+                           tr
+                              th(scope="col") 8:45-8:59
+                              td.shower46-1
+                              td.shower46-2 ×
+                              td.shower46-3 ×
             .AppMain.Hide.EditProfile.OneLayer
                .ContentBoxNoBackGround.alert.alert-primary
                   h4 プロフィールの設定
@@ -733,13 +791,13 @@ html
             .HeaderTitle
                span.AppLogo
                   img(src="/logo.svg", width="24px", height="24px")
-               span.AppName 東京寮WebApp ver2.0.1
+               span.AppName 東京寮WebApp ver2.0.4
             .HeaderAppInfo(style="z-index: 10001;")
                .btn-group
                   button.btn.btn-sm.dropdown-toggle(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
                      img(src="/logo.svg", width="24px", height="24px")
                   .dropdown-menu
-                     a.dropdown-item(href="#") 東京寮ウェブアプリ ver2.0.1
+                     a.dropdown-item(href="#") 東京寮ウェブアプリ ver2.0.4
                      a.dropdown-item(href="#") &copy; Daisuke AKAZAWA
                      a.dropdown-item(href="#") under MIT Licence
                      .dropdown-divider
@@ -749,7 +807,7 @@ html
                span.HeaderUserInfo
                span.HeaderSafetyLevel
          .AppFooter
-            .AppFooterLeft 東京寮ウェブアプリ ver2.0.1  works with
+            .AppFooterLeft 東京寮ウェブアプリ ver2.0.4  works with
                i.fa.fa-chrome(aria-hidden="true")
                i.fa.fa-safari(aria-hidden="true")
                i.fa.fa-edge(aria-hidden="true")

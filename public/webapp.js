@@ -594,7 +594,7 @@ $(() => {
          $(".dinnerDate").html('(' + reserveData["dinner"]["date"] + ')');
       };
       var isShowerReserved = false;
-      for (i = 1; i < 35; i++){
+      for (i = 1; i < 47; i++){
          if(reserveData["shower"]["data"]){
             for (j = 1; j < 4; j++){
                if(reserveData["shower"]["data"][i + "-" + j]){
@@ -621,7 +621,7 @@ $(() => {
       if(isShowerReserved){
          $(".showerDate").html('(' + reserveData["shower"]["date"] + ')<span class="badge badge-success">予約済み</span>');
       }else{
-         for (i = 1; i < 35; i++){
+         for (i = 1; i < 47; i++){
             for (j = 1; j < 4; j++){
                if($(".shower" + i + "-" + j).html() == ""){
                   $(".shower" + i + "-" + j).html("<button type='shower' class='btn btn-sm btn-outline-success reserveButton' name='shower" + i + "-" + j + "'>予約する</button>");
