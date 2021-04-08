@@ -1,0 +1,37 @@
+{
+    "rules": {
+        ".read": false,
+        ".write": false,
+        "home": {
+            ".read": true,
+            ".write": false,
+            "post": {
+                ".write": true
+            }
+        },
+        "meetings": {
+            ".read": true,
+            ".write": false
+        },
+        "profile": {
+            ".read": true,
+            ".write": false,
+            "$uid": {
+                ".write": "$uid === auth.uid"
+            }
+        },
+        "rootInfo": {
+            ".read": true,
+            ".write": false,
+            "unread": {
+                "$uid": {
+                    ".write": "$uid === auth.uid"
+                }
+            }
+        },
+        "share": {
+            ".read": true,
+            ".write": false
+        }
+    }
+}

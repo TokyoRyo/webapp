@@ -1,0 +1,17 @@
+@media (max-width: 899px){
+    .app_section{
+        margin: 0;
+        padding: 15px;
+        border-bottom: solid 1px rgb(220, 220, 220);
+    }
+}
+@media (min-width: 900px){
+    .app_section{
+        margin: auto;
+        padding: 10px;
+        border-bottom: solid 1px rgb(220, 220, 220);
+    }
+}
+.app_section__hover:hover{
+    background-color: rgb(250, 250, 250);
+}

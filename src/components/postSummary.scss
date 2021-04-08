@@ -1,0 +1,43 @@
+.app_postSummary{
+    margin-top: 5px;
+    display: grid;
+    grid-template-columns: 45px 1fr 1fr;
+    grid-template-rows: auto auto auto ;
+}
+.app_postSummary__unread{
+    grid-column: 1/2;
+    grid-row: 1/4;
+    background-color: rgb(82, 82, 82);
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 22px;
+    color: white;
+}
+.app_postSummary__unread.unread{
+    background-color: rgb(255, 65, 7);
+}
+.app_postSummary__time{
+    grid-column: 2/4;
+    grid-row: 1/2;
+    font-size: 0.75em;
+    color: rgb(82, 82, 82);
+}
+.app_postSummary__title{
+    font-size: 20px;
+    font-weight: bold;
+    grid-column: 2/4;
+    grid-row: 2/3;
+}
+.app_postSummary__reply{
+    grid-column: 2/3;
+    grid-row: 3/4;
+    color: rgb(82, 82, 82);
+}
+.app_postSummary__eye{
+    grid-column: 3/4;
+    grid-row: 3/4;
+    color: rgb(82, 82, 82);
+}
