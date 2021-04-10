@@ -119,7 +119,7 @@ class NewPost extends React.Component {
         this.setState({proceeding: true})
         const currentContent = this.state.content.getCurrentContent()
         const date = new Date();
-        const dateString = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
+        const dateString = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()} ${('0' + date.getHours()).slice(-2)}:${('0' + date.getMinutes()).slice(-2)}`
         var postData = {
             title: this.state.title,
             html: stateToHTML(currentContent),

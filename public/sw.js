@@ -1,4 +1,4 @@
-var cacheName = 'ver3.0.0';
+var cacheName = 'ver3.0.1';
 var staticFiles = [
     '/',
     '/tokyoryo-webapp-bundle.css?' + cacheName,

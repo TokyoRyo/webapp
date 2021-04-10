@@ -1,5 +1,5 @@
 import React from 'react';
-import Lodaing from './Loading';
+import Loading from './Loading';
 import firebase from '../firebase-setup';
 import Html2Jsx from './Html2Jsx';
 import Auth from './Auth';
@@ -121,7 +121,7 @@ class Post extends React.Component {
                 <div className="app_frame__contentBox">
                 <h1>掲示</h1>
                 <hr />
-                <Lodaing /><Lodaing /><Lodaing /><Lodaing /><Lodaing /><Lodaing />
+                <Loading /><Loading /><Loading /><Loading /><Loading /><Loading />
             </div>
             )
         }
@@ -186,7 +186,10 @@ class Post extends React.Component {
     };
     handleDelete() {
         this.setState({check: false});
-        this.databasePost.remove();
+        this.databasePost.remove().then(() => {
+            firebase.functions().httpsCallable('mergeUnread')({});
+        });
+        
         this.props.history.push("/");
     }
     postReply() {

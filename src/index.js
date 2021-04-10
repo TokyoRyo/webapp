@@ -20,6 +20,7 @@ import Meetings from './components/Meetings';
 import NewPost from './components/NewPost';
 import Post from './components/Post';
 import Info from './components/Info';
+import Members from './components/Members';
 
 
 
@@ -39,6 +40,7 @@ ReactDOM.render(
                     <div className="app_frame__content">
                         <Route exact path="/" component={Home} />
                         <Route exact path="/newpost" component={NewPost} />
+                        <Route exact path="/members" component={Members} />
                         <Route exact path="/share" component={Share} />
                         <Route exact path="/meetings" component={Meetings} />
                         <Route exact path="/settings" component={Settings} />

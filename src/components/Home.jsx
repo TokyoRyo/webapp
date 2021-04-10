@@ -108,6 +108,11 @@ class Home extends React.Component {
                 <section className="app_section">
                     <Link to="/newpost"><Button variant="primary">新しい掲示を作成する</Button></Link>
                 </section>
+                <hr />
+                <h2>メンバー一覧</h2>
+                <section className="app_section">
+                    <Link to="/members"><Button variant="primary">メンバー一覧を表示する</Button></Link>
+                </section>
             </div>
         );
     };

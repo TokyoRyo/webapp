@@ -21,10 +21,10 @@ class AppInfo extends React.Component {
                 <p className="app_section_subscript">
                     東京寮ウェブアプリ<br />
                     https://tokyo-ryo.web.app/<br />
-                    バージョン：3.0.0<br />
+                    バージョン：3.0.1<br />
                     一緒にこのアプリを開発しませんか？興味があれば赤沢まで！
                 </p>
-                <div><a href="https://github.com/TokyoRyo/webapp" target="blank"><button type="button" className="btn btn-dark"><FontAwesomeIcon icon={faGithub} />　Githubで見る</button></a></div>
+                <div><a href="https://github.com/TokyoRyo/webapp" target="blank"><button type="button" className="btn btn-dark"><FontAwesomeIcon icon={faGithub} /> Githubで見る</button></a></div>
             </section>
             </div>
         );

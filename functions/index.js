@@ -24,6 +24,30 @@ exports.confirmCommonPassowrd = functions
       };
     });
 
+exports.mergeUnread = functions
+    .https.onCall((req, res) => {
+        database.ref("/home/post").once("value").then((snapshot) => {
+            const databaseData = snapshot.val();
+            const postKeys = Object.keys(databaseData);
+            var unread = {}
+            for (var i=0; i<postKeys.length; i++){
+                if (databaseData[postKeys[i]].unread) {
+                    var uidKeys = Object.keys(databaseData[postKeys[i]].unread);
+                    for (var j=0; j<uidKeys.length; j++) {
+                        if (databaseData[postKeys[i]].unread[uidKeys[j]] === 'unread'){
+                            if (unread[uidKeys[j]]) {
+                                unread[uidKeys[j]][postKeys[i]] = true;
+                            }else{
+                                unread[uidKeys[j]] = {[postKeys[i]]: true}
+                            }
+                        }
+                    }
+                }
+            }
+            database.ref("rootInfo/unread").set(unread);
+        })
+    })
+
 exports.newPost = functions
     .https.onCall((req, res) => {
         database.ref("/").once("value").then((snapshot) => {
