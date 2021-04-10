@@ -18,11 +18,7 @@ class Profile extends React.Component {
             job: <Loading />,
             status: <Loading />,
             webpush: null,
-            notificationPermission: 'loading',
-            webpushAvail: 'checking',
         }
-        this.registerToken = this.registerToken.bind(this);
-        this.requestPermission = this.requestPermission.bind(this);
         this.database = firebase.database().ref('profile/' + Auth.myUid);
     };
     render() {
@@ -63,7 +59,7 @@ class Profile extends React.Component {
                 </section>
                 <hr />
                 <h2>通知の設定</h2>
-                <WebPush notificationPermission={this.state.notificationPermission} webpushAvail={this.state.webpushAvail} requestPermission={this.requestPermission} />
+                <WebPush token={this.state.webpush} />
                 <LineNotify lineToken={this.state.line} />
                 <hr />
                 <h2>ログアウト</h2>
@@ -75,19 +71,22 @@ class Profile extends React.Component {
     };
     componentDidMount() {
         this.database.on('value', (snapshot) => {
-            const tmp = snapshot.val();
-            tmp.notificationPermission = Notification.permission;
-            this.setState(tmp);
-            if (this.state.notificationPermission === 'granted'){
-                this.registerToken();
-            };
+            this.setState(snapshot.val());
         });
     };
     componentWillUnmount() {
         this.database.off();
     };
+    initMessaging() {
+        if(firebase.messaging.isSupported) {
+            this
+        }else{
+            this.setState({webpushAvail: 'unavail'});
+        }
+    }
     registerToken() {
-        firebase.messaging().getToken()
+        try {
+            firebase.messaging().getToken()
             .then((token) => {
                 this.setState({webpushAvail: 'avail'});
                 if (this.state.webpush){
@@ -100,6 +99,10 @@ class Profile extends React.Component {
             }).catch(() => {
                 this.setState({webpushAvail: 'unavail'});
             })
+        } catch {
+            this.setState({webpushAvail: 'unavail'});
+        }
+        
     };
     requestPermission() {
         Notification.requestPermission()

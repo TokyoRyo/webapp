@@ -1,4 +1,6 @@
 import React from 'react';
+import Auth from './Auth';
+import firebase from '../firebase-setup';
 import { Button, Alert } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBellSlash, faTimesCircle, faExclamationTriangle, faBell } from '@fortawesome/free-solid-svg-icons';
@@ -12,11 +14,58 @@ const PermissionRequest = (props) => {
 class WebPush extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            notificationPermission: 'checking'
+        };
+        this.database = firebase.database().ref('profile/' + Auth.myUid);
+        this.initMessaging = this.initMessaging.bind(this);
+        this.requestPermission = this.requestPermission.bind(this);
     }
     componentDidMount() {
+        try {
+            this.initMessaging();
+        }
+        catch {
+            this.setState({notificationPermission: 'unavail'});
+        }
+    }
+    initMessaging() {
+        if (!firebase.messaging.isSupported){
+            this.setState({notificationPermission: 'unavail'})
+            return true;
+        }
+        const permission = Notification.permission;
+        if (permission !== 'granted'){
+            this.setState({notificationPermission: permission});
+            return true;
+        }
+        firebase.messaging().getToken()
+        .then((token) => {
+            this.setState({notificationPermission: 'granted'});
+            if (!this.props.token) {
+                this.database.update({webpush: {[token]: true}});
+            }
+            else if(Object.keys(this.props.webpush).indexOf(token) === -1){
+                this.database.child('webpush').update({[token]: true});
+            }
+        }).catch(() => {
+            this.setState({notificationPermission: 'unavail'});
+        })
+    }
+    requestPermission() {
+        this.setState({notificationPermission: 'checking'});
+        Notification.requestPermission()
+            .then(() => {
+                try {
+                    this.initMessaging();
+                }
+                catch {
+                    this.setState({notificationPermission: 'unavail'});
+                }
+            });
     }
     render() {
-        if (this.props.notificationPermission === 'denied') {
+        if (this.state.notificationPermission === 'denied') {
             return (
             <section className="app_section">
                 <h3>WebPush通知</h3>
@@ -30,7 +79,7 @@ class WebPush extends React.Component {
             </section>
             );
         };
-        if (this.props.webpushAvail === 'unavail') {
+        if (this.state.notificationPermission === 'unavail') {
             return (
             <section className="app_section">
                 <h3>WebPush通知</h3>
@@ -47,7 +96,7 @@ class WebPush extends React.Component {
             </section>
             );
         };
-        if (this.props.notificationPermission === 'default') {
+        if (this.state.notificationPermission === 'default') {
             return (
             <section className="app_section">
                 <h3>WebPush通知</h3>
@@ -58,11 +107,11 @@ class WebPush extends React.Component {
                     下のボタンを押したあと、通知を許可してください。
                     </p>
                 </Alert>
-                <PermissionRequest requestPermission={this.props.requestPermission} />
+                <PermissionRequest requestPermission={this.requestPermission} />
             </section>
             );
         };
-        if (this.props.notificationPermission === 'granted') {
+        if (this.state.notificationPermission === 'granted') {
             return (
                 <section className="app_section">
                     <h3>WebPush通知</h3>
